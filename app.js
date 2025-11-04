@@ -1,32 +1,39 @@
 const express = require("express");
 const fs = require("fs");
+const morgan = require("morgan");
 
 const app = express();
+
+// MIDDLEWARES
+app.use(morgan("dev"));
 app.use(express.json());
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
 
+// CONSTANTS
 const apiUrl = "/api/v1/tours";
 const notFoundRes = {
   status: "fail",
   message: "Invalid id",
 };
 
+// I/O OPERATIONS
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
+// UTILS
 const writeToursFile = (tours, responseCallback) =>
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
     JSON.stringify(tours),
     responseCallback
   );
-
 const findTourIndex = (tourId) => tours.findIndex((tour) => tour.id === tourId);
 
+// ROUTE HANDLERS
 const getAllTours = (req, res) => {
   res.status(200).json({
     status: "success",
@@ -114,6 +121,7 @@ const deleteTour = (req, res) => {
   writeToursFile(updatedTours, responseCallback);
 };
 
+// ROUTES
 app.route(apiUrl).get(getAllTours).post(createTour);
 app
   .route(`${apiUrl}/:id`)
@@ -121,6 +129,7 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
+// START SERVER
 const port = 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
