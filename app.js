@@ -14,7 +14,14 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-const findTourIndex = (tourId) => tours.findIndex((el) => el.id === tourId);
+const writeToursFile = (tours, responseCallback) =>
+  fs.writeFile(
+    `${__dirname}/dev-data/data/tours-simple.json`,
+    JSON.stringify(tours),
+    responseCallback
+  );
+
+const findTourIndex = (tourId) => tours.findIndex((tour) => tour.id === tourId);
 
 const getAllTours = (req, res) => {
   res.status(200).json({
@@ -47,18 +54,15 @@ const createTour = (req, res) => {
 
   tours.push(newTour);
 
-  fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(tours),
-    (err) => {
-      res.status(201).json({
-        status: "success",
-        data: {
-          tour: newTour,
-        },
-      });
-    }
-  );
+  const responseCallback = (err) => {
+    res.status(201).json({
+      status: "success",
+      data: {
+        tour: newTour,
+      },
+    });
+  };
+  writeToursFile(tours, responseCallback);
 };
 
 const updateTour = (req, res) => {
@@ -75,18 +79,15 @@ const updateTour = (req, res) => {
   const updatedTours = [...tours];
   updatedTours[tourIndex] = updatedTour;
 
-  fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(updatedTours),
-    (err) => {
-      res.status(200).json({
-        status: "success",
-        data: {
-          tour: updatedTour,
-        },
-      });
-    }
-  );
+  const responseCallback = (err) => {
+    res.status(200).json({
+      status: "success",
+      data: {
+        tour: updatedTour,
+      },
+    });
+  };
+  writeToursFile(updatedTours, responseCallback);
 };
 
 const deleteTour = (req, res) => {
@@ -98,16 +99,13 @@ const deleteTour = (req, res) => {
   }
 
   const updatedTours = tours.filter((tour) => tour.id !== tourId);
-  fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(updatedTours),
-    (err) => {
-      res.status(204).json({
-        status: "success",
-        data: null,
-      });
-    }
-  );
+  const responseCallback = (err) => {
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  };
+  writeToursFile(updatedTours, responseCallback);
 };
 
 app.route(apiUrl).get(getAllTours).post(createTour);
