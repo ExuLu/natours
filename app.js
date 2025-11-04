@@ -29,6 +29,24 @@ app.get('/api/v1/tours', (req, res) => {
   });
 });
 
+app.get('/api/v1/tours/:id', (req, res) => {
+  const tour = tours.find((el) => el.id === Number(req.params.id));
+
+  if (!tour) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid id',
+    });
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tour,
+    },
+  });
+});
+
 app.post('/api/v1/tours', (req, res) => {
   const newId = tours.at(-1).id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
@@ -47,21 +65,6 @@ app.post('/api/v1/tours', (req, res) => {
       });
     }
   );
-});
-
-app.get('/api/v1/tours/:id', (req, res) => {
-  const tourId = Number(req.params.id);
-  const tour = tours.find((el) => {
-    console.log(el.id === tourId);
-    return el.id === tourId;
-  });
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      tour,
-    },
-  });
 });
 
 const port = 3000;
