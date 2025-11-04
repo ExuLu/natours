@@ -1,125 +1,119 @@
-const express = require('express');
-const fs = require('fs');
+const express = require("express");
+const fs = require("fs");
 
 const app = express();
-
 app.use(express.json());
 
-// app.get('/', (req, res) => {
-//   res
-//     .status(200)
-//     .json({ message: 'Hello from the server side', app: 'Natours' });
-// });
-
-// app.post('/', (req, res) => {
-//   res.send('You can post to this endpoint');
-// });
+const apiUrl = "/api/v1/tours";
+const notFoundRes = {
+  status: "fail",
+  message: "Invalid id",
+};
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-app.get('/api/v1/tours', (req, res) => {
+const writeToursFile = (tours, responseCallback) =>
+  fs.writeFile(
+    `${__dirname}/dev-data/data/tours-simple.json`,
+    JSON.stringify(tours),
+    responseCallback
+  );
+
+const findTourIndex = (tourId) => tours.findIndex((tour) => tour.id === tourId);
+
+const getAllTours = (req, res) => {
   res.status(200).json({
-    status: 'success',
+    status: "success",
     results: tours.length,
     data: {
       tours,
     },
   });
-});
+};
 
-app.get('/api/v1/tours/:id', (req, res) => {
-  const tourId = Number(req.params.id);
-  const tourIndex = tours.findIndex((el) => el.id === tourId);
+const getTourById = (req, res) => {
+  const tourIndex = findTourIndex(Number(req.params.id));
 
   if (tourIndex === -1) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid id',
-    });
+    return res.status(404).json(notFoundRes);
   }
 
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data: {
       tour: tours[tourIndex],
     },
   });
-});
+};
 
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
   const newId = tours.at(-1).id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
 
   tours.push(newTour);
 
-  fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(tours),
-    (err) => {
-      res.status(201).json({
-        status: 'success',
-        data: {
-          tour: newTour,
-        },
-      });
-    }
-  );
-});
+  const responseCallback = (err) => {
+    res.status(201).json({
+      status: "success",
+      data: {
+        tour: newTour,
+      },
+    });
+  };
+  writeToursFile(tours, responseCallback);
+};
 
-app.patch('/api/v1/tours/:id', (req, res) => {
-  const tourId = Number(req.params.id);
-  const tourIndex = tours.findIndex((el) => el.id === tourId);
+const updateTour = (req, res) => {
+  const tourIndex = findTourIndex(Number(req.params.id));
 
   if (tourIndex === -1) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid id',
-    });
+    return res.status(404).json(notFoundRes);
   }
 
-  const updatedTour = { ...tours[tourId], ...req.body };
+  const updatedTour = {
+    ...tours[tourIndex],
+    ...req.body,
+  };
   const updatedTours = [...tours];
-  updatedTours[tourId] = updatedTour;
+  updatedTours[tourIndex] = updatedTour;
 
-  fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(updatedTours),
-    (err) => {
-      res.status(200).json({
-        status: 'success',
-        data: {
-          tour: updatedTour,
-        },
-      });
-    }
-  );
-});
+  const responseCallback = (err) => {
+    res.status(200).json({
+      status: "success",
+      data: {
+        tour: updatedTour,
+      },
+    });
+  };
+  writeToursFile(updatedTours, responseCallback);
+};
 
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
   const tourId = Number(req.params.id);
-  const tourIndex = tours.findIndex((el) => el.id === tourId);
+  const tourIndex = findTourIndex(tourId);
 
   if (tourIndex === -1) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid id',
-    });
+    return res.status(404).json(notFoundRes);
   }
 
   const updatedTours = tours.filter((tour) => tour.id !== tourId);
-  fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(updatedTours),
-    (err) => {
-      res.status(204).json({
-        status: 'success',
-        data: null,
-      });
-    }
-  );
-});
+  const responseCallback = (err) => {
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  };
+  writeToursFile(updatedTours, responseCallback);
+};
+
+app.route(apiUrl).get(getAllTours).post(createTour);
+app
+  .route(`${apiUrl}/:id`)
+  .get(getTourById)
+  .patch(updateTour)
+  .delete(deleteTour);
 
 const port = 3000;
 app.listen(port, () => {
