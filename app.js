@@ -1,10 +1,10 @@
-const express = require('express');
-const fs = require('fs');
+const express = require("express");
+const fs = require("fs");
 
 const app = express();
 app.use(express.json());
 
-const apiUrl = '/api/v1/tours';
+const apiUrl = "/api/v1/tours";
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
@@ -12,7 +12,7 @@ const tours = JSON.parse(
 
 const getAllTours = (req, res) => {
   res.status(200).json({
-    status: 'success',
+    status: "success",
     results: tours.length,
     data: {
       tours,
@@ -26,13 +26,13 @@ const getTourById = (req, res) => {
 
   if (tourIndex === -1) {
     return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid id',
+      status: "fail",
+      message: "Invalid id",
     });
   }
 
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data: {
       tour: tours[tourIndex],
     },
@@ -50,7 +50,7 @@ const createTour = (req, res) => {
     JSON.stringify(tours),
     (err) => {
       res.status(201).json({
-        status: 'success',
+        status: "success",
         data: {
           tour: newTour,
         },
@@ -65,12 +65,15 @@ const updateTour = (req, res) => {
 
   if (tourIndex === -1) {
     return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid id',
+      status: "fail",
+      message: "Invalid id",
     });
   }
 
-  const updatedTour = { ...tours[tourId], ...req.body };
+  const updatedTour = {
+    ...tours[tourId],
+    ...req.body,
+  };
   const updatedTours = [...tours];
   updatedTours[tourId] = updatedTour;
 
@@ -79,7 +82,7 @@ const updateTour = (req, res) => {
     JSON.stringify(updatedTours),
     (err) => {
       res.status(200).json({
-        status: 'success',
+        status: "success",
         data: {
           tour: updatedTour,
         },
@@ -94,8 +97,8 @@ const deleteTour = (req, res) => {
 
   if (tourIndex === -1) {
     return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid id',
+      status: "fail",
+      message: "Invalid id",
     });
   }
 
@@ -105,18 +108,19 @@ const deleteTour = (req, res) => {
     JSON.stringify(updatedTours),
     (err) => {
       res.status(204).json({
-        status: 'success',
+        status: "success",
         data: null,
       });
     }
   );
 };
 
-app.get(apiUrl, getAllTours);
-app.get(`${apiUrl}/:id`, getTourById);
-app.post(apiUrl, createTour);
-app.patch(`${apiUrl}/:id`, updateTour);
-app.delete(`${apiUrl}/:id`, deleteTour);
+app.route(apiUrl).get(getAllTours).post(createTour);
+app
+  .route(`${apiUrl}/:id`)
+  .get(getTourById)
+  .patch(updateTour)
+  .delete(deleteTour);
 
 const port = 3000;
 app.listen(port, () => {
