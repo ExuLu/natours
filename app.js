@@ -69,34 +69,27 @@ app.post('/api/v1/tours', (req, res) => {
 
 app.patch('/api/v1/tours/:id', (req, res) => {
   const tourId = Number(req.params.id);
-  const tour = tours.find((el) => el.id === tourId);
-  //   console.log(`id: ${tourId}, tour: ${tour}`);
+  const tourIndex = tours.findIndex((el) => el.id === tourId);
 
-  if (!tour) {
+  if (tourIndex === -1) {
     return res.status(404).json({
       status: 'fail',
       message: 'Invalid id',
     });
   }
 
-  const updatedTour = Object.assign(tour, req.body);
-  const updatedTours = tours.map((el) => {
-    if (el.id === tourId) {
-      return updatedTour;
-    }
-
-    return el;
-  });
+  const updatedTour = { ...tours[tourId], ...req.body };
+  const updatedTours = [...tours];
+  updatedTours[tourId] = updatedTour;
 
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
-    JSON.stringify(tours),
+    JSON.stringify(updatedTours),
     (err) => {
       res.status(201).json({
         status: 'success',
-        result: tours.length,
         data: {
-          tours: updatedTours,
+          tour: updatedTour,
         },
       });
     }
