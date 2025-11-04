@@ -5,10 +5,16 @@ const app = express();
 app.use(express.json());
 
 const apiUrl = "/api/v1/tours";
+const notFoundRes = {
+  status: "fail",
+  message: "Invalid id",
+};
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
+
+const findTourIndex = (tourId) => tours.findIndex((el) => el.id === tourId);
 
 const getAllTours = (req, res) => {
   res.status(200).json({
@@ -21,14 +27,10 @@ const getAllTours = (req, res) => {
 };
 
 const getTourById = (req, res) => {
-  const tourId = Number(req.params.id);
-  const tourIndex = tours.findIndex((el) => el.id === tourId);
+  const tourIndex = findTourIndex(Number(req.params.id));
 
   if (tourIndex === -1) {
-    return res.status(404).json({
-      status: "fail",
-      message: "Invalid id",
-    });
+    return res.status(404).json(notFoundRes);
   }
 
   res.status(200).json({
@@ -60,22 +62,18 @@ const createTour = (req, res) => {
 };
 
 const updateTour = (req, res) => {
-  const tourId = Number(req.params.id);
-  const tourIndex = tours.findIndex((el) => el.id === tourId);
+  const tourIndex = findTourIndex(Number(req.params.id));
 
   if (tourIndex === -1) {
-    return res.status(404).json({
-      status: "fail",
-      message: "Invalid id",
-    });
+    return res.status(404).json(notFoundRes);
   }
 
   const updatedTour = {
-    ...tours[tourId],
+    ...tours[tourIndex],
     ...req.body,
   };
   const updatedTours = [...tours];
-  updatedTours[tourId] = updatedTour;
+  updatedTours[tourIndex] = updatedTour;
 
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
@@ -93,13 +91,10 @@ const updateTour = (req, res) => {
 
 const deleteTour = (req, res) => {
   const tourId = Number(req.params.id);
-  const tourIndex = tours.findIndex((el) => el.id === tourId);
+  const tourIndex = findTourIndex(tourId);
 
   if (tourIndex === -1) {
-    return res.status(404).json({
-      status: "fail",
-      message: "Invalid id",
-    });
+    return res.status(404).json(notFoundRes);
   }
 
   const updatedTours = tours.filter((tour) => tour.id !== tourId);
