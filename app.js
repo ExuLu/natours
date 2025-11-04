@@ -3,6 +3,10 @@ const fs = require("fs");
 
 const app = express();
 app.use(express.json());
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+});
 
 const apiUrl = "/api/v1/tours";
 const notFoundRes = {
@@ -27,6 +31,7 @@ const getAllTours = (req, res) => {
   res.status(200).json({
     status: "success",
     results: tours.length,
+    requestedAt: req.requestTime,
     data: {
       tours,
     },
@@ -42,6 +47,7 @@ const getTourById = (req, res) => {
 
   res.status(200).json({
     status: "success",
+    requestedAt: req.requestTime,
     data: {
       tour: tours[tourIndex],
     },
