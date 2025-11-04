@@ -87,7 +87,7 @@ app.patch('/api/v1/tours/:id', (req, res) => {
     `${__dirname}/dev-data/data/tours-simple.json`,
     JSON.stringify(updatedTours),
     (err) => {
-      res.status(201).json({
+      res.status(200).json({
         status: 'success',
         data: {
           tour: updatedTour,
@@ -113,11 +113,9 @@ app.delete('/api/v1/tours/:id', (req, res) => {
     `${__dirname}/dev-data/data/tours-simple.json`,
     JSON.stringify(updatedTours),
     (err) => {
-      res.status(201).json({
+      res.status(204).json({
         status: 'success',
-        data: {
-          tour: tours[tourIndex],
-        },
+        data: null,
       });
     }
   );
