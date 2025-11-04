@@ -2,24 +2,15 @@ const express = require('express');
 const fs = require('fs');
 
 const app = express();
-
 app.use(express.json());
 
-// app.get('/', (req, res) => {
-//   res
-//     .status(200)
-//     .json({ message: 'Hello from the server side', app: 'Natours' });
-// });
-
-// app.post('/', (req, res) => {
-//   res.send('You can post to this endpoint');
-// });
+const apiUrl = '/api/v1/tours';
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
-app.get('/api/v1/tours', (req, res) => {
+const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
     results: tours.length,
@@ -27,9 +18,9 @@ app.get('/api/v1/tours', (req, res) => {
       tours,
     },
   });
-});
+};
 
-app.get('/api/v1/tours/:id', (req, res) => {
+const getTourById = (req, res) => {
   const tourId = Number(req.params.id);
   const tourIndex = tours.findIndex((el) => el.id === tourId);
 
@@ -46,9 +37,9 @@ app.get('/api/v1/tours/:id', (req, res) => {
       tour: tours[tourIndex],
     },
   });
-});
+};
 
-app.post('/api/v1/tours', (req, res) => {
+const createTour = (req, res) => {
   const newId = tours.at(-1).id + 1;
   const newTour = Object.assign({ id: newId }, req.body);
 
@@ -66,9 +57,9 @@ app.post('/api/v1/tours', (req, res) => {
       });
     }
   );
-});
+};
 
-app.patch('/api/v1/tours/:id', (req, res) => {
+const updateTour = (req, res) => {
   const tourId = Number(req.params.id);
   const tourIndex = tours.findIndex((el) => el.id === tourId);
 
@@ -95,9 +86,9 @@ app.patch('/api/v1/tours/:id', (req, res) => {
       });
     }
   );
-});
+};
 
-app.delete('/api/v1/tours/:id', (req, res) => {
+const deleteTour = (req, res) => {
   const tourId = Number(req.params.id);
   const tourIndex = tours.findIndex((el) => el.id === tourId);
 
@@ -119,7 +110,13 @@ app.delete('/api/v1/tours/:id', (req, res) => {
       });
     }
   );
-});
+};
+
+app.get(apiUrl, getAllTours);
+app.get(`${apiUrl}/:id`, getTourById);
+app.post(apiUrl, createTour);
+app.patch(`${apiUrl}/:id`, updateTour);
+app.delete(`${apiUrl}/:id`, deleteTour);
 
 const port = 3000;
 app.listen(port, () => {
