@@ -1,9 +1,5 @@
 const fs = require('fs');
-const {
-  notFoundRes,
-  writeToursFile,
-  findTourIndex,
-} = require('../utils/tourUtils');
+const { writeToursFile, findTourIndex } = require('../utils/tourUtils');
 
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
@@ -62,11 +58,11 @@ exports.getTourById = (req, res) => {
 
 exports.createTour = (req, res) => {
   const newId = tours.at(-1).id + 1;
-  const newTour = Object.assign({ id: newId }, req.body);
+  const newTour = { id: newId, ...req.body };
 
   tours.push(newTour);
 
-  const responseCallback = (err) => {
+  const responseCallback = () => {
     res.status(201).json({
       status: 'success',
       data: {
@@ -87,7 +83,7 @@ exports.updateTour = (req, res) => {
   const updatedTours = [...tours];
   updatedTours[tourIndex] = updatedTour;
 
-  const responseCallback = (err) => {
+  const responseCallback = () => {
     res.status(200).json({
       status: 'success',
       data: {
@@ -102,7 +98,7 @@ exports.deleteTour = (req, res) => {
   const tourId = Number(req.params.id);
 
   const updatedTours = tours.filter((tour) => tour.id !== tourId);
-  const responseCallback = (err) => {
+  const responseCallback = () => {
     res.status(204).json({
       status: 'success',
       data: null,
