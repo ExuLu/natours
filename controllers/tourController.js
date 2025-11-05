@@ -10,6 +10,8 @@ const tours = JSON.parse(
 );
 
 exports.checkId = (req, res, next, val) => {
+  console.log(`Tour id is: ${val}`);
+
   const tourIndex = findTourIndex(tours, Number(val));
 
   if (tourIndex === -1) {
