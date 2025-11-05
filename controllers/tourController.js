@@ -22,7 +22,7 @@ exports.getAllTours = (req, res) => {
 };
 
 exports.getTourById = (req, res) => {
-  const tourIndex = findTourIndex(Number(req.params.id));
+  const tourIndex = findTourIndex(tours, Number(req.params.id));
 
   if (tourIndex === -1) {
     return res.status(404).json(notFoundRes);
@@ -55,7 +55,7 @@ exports.createTour = (req, res) => {
 };
 
 exports.updateTour = (req, res) => {
-  const tourIndex = findTourIndex(Number(req.params.id));
+  const tourIndex = findTourIndex(tours, Number(req.params.id));
 
   if (tourIndex === -1) {
     return res.status(404).json(notFoundRes);
@@ -81,7 +81,7 @@ exports.updateTour = (req, res) => {
 
 exports.deleteTour = (req, res) => {
   const tourId = Number(req.params.id);
-  const tourIndex = findTourIndex(tourId);
+  const tourIndex = findTourIndex(tours, tourId);
 
   if (tourIndex === -1) {
     return res.status(404).json(notFoundRes);

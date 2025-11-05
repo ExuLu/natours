@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 exports.notFoundRes = {
   status: 'fail',
   message: 'Invalid id',
@@ -10,5 +12,5 @@ exports.writeToursFile = (tours, responseCallback) =>
     responseCallback
   );
 
-exports.findTourIndex = (tourId) =>
+exports.findTourIndex = (tours, tourId) =>
   tours.findIndex((tour) => tour.id === tourId);
