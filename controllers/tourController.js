@@ -9,6 +9,21 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
+exports.checkId = (req, res, next, val) => {
+  console.log(`Tour id is: ${val}`);
+
+  const tourIndex = findTourIndex(tours, Number(val));
+
+  if (tourIndex === -1) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid id',
+    });
+  }
+
+  next();
+};
+
 // CONTROLLERS
 exports.getAllTours = (req, res) => {
   res.status(200).json({
@@ -23,10 +38,6 @@ exports.getAllTours = (req, res) => {
 
 exports.getTourById = (req, res) => {
   const tourIndex = findTourIndex(tours, Number(req.params.id));
-
-  if (tourIndex === -1) {
-    return res.status(404).json(notFoundRes);
-  }
 
   res.status(200).json({
     status: 'success',
@@ -57,10 +68,6 @@ exports.createTour = (req, res) => {
 exports.updateTour = (req, res) => {
   const tourIndex = findTourIndex(tours, Number(req.params.id));
 
-  if (tourIndex === -1) {
-    return res.status(404).json(notFoundRes);
-  }
-
   const updatedTour = {
     ...tours[tourIndex],
     ...req.body,
@@ -81,11 +88,6 @@ exports.updateTour = (req, res) => {
 
 exports.deleteTour = (req, res) => {
   const tourId = Number(req.params.id);
-  const tourIndex = findTourIndex(tours, tourId);
-
-  if (tourIndex === -1) {
-    return res.status(404).json(notFoundRes);
-  }
 
   const updatedTours = tours.filter((tour) => tour.id !== tourId);
   const responseCallback = (err) => {
