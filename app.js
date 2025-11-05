@@ -1,11 +1,11 @@
-const express = require("express");
-const fs = require("fs");
-const morgan = require("morgan");
+const express = require('express');
+const fs = require('fs');
+const morgan = require('morgan');
 
 const app = express();
 
 // MIDDLEWARES
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(express.json());
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
@@ -13,10 +13,9 @@ app.use((req, res, next) => {
 });
 
 // CONSTANTS
-const apiUrl = "/api/v1/tours";
 const notFoundRes = {
-  status: "fail",
-  message: "Invalid id",
+  status: 'fail',
+  message: 'Invalid id',
 };
 
 // I/O OPERATIONS
@@ -36,7 +35,7 @@ const findTourIndex = (tourId) => tours.findIndex((tour) => tour.id === tourId);
 // ROUTE HANDLERS
 const getAllTours = (req, res) => {
   res.status(200).json({
-    status: "success",
+    status: 'success',
     results: tours.length,
     requestedAt: req.requestTime,
     data: {
@@ -53,7 +52,7 @@ const getTourById = (req, res) => {
   }
 
   res.status(200).json({
-    status: "success",
+    status: 'success',
     requestedAt: req.requestTime,
     data: {
       tour: tours[tourIndex],
@@ -69,7 +68,7 @@ const createTour = (req, res) => {
 
   const responseCallback = (err) => {
     res.status(201).json({
-      status: "success",
+      status: 'success',
       data: {
         tour: newTour,
       },
@@ -94,7 +93,7 @@ const updateTour = (req, res) => {
 
   const responseCallback = (err) => {
     res.status(200).json({
-      status: "success",
+      status: 'success',
       data: {
         tour: updatedTour,
       },
@@ -114,7 +113,7 @@ const deleteTour = (req, res) => {
   const updatedTours = tours.filter((tour) => tour.id !== tourId);
   const responseCallback = (err) => {
     res.status(204).json({
-      status: "success",
+      status: 'success',
       data: null,
     });
   };
@@ -122,12 +121,19 @@ const deleteTour = (req, res) => {
 };
 
 // ROUTES
-app.route(apiUrl).get(getAllTours).post(createTour);
+app.route('/api/v1/tours').get(getAllTours).post(createTour);
 app
-  .route(`${apiUrl}/:id`)
+  .route('/api/v1/tours/:id')
   .get(getTourById)
   .patch(updateTour)
   .delete(deleteTour);
+
+app.route('/api/v1/users').get(getAllUsers).post(createUser);
+app
+  .route('/api/v1/users/:id')
+  .get(getUserById)
+  .patch(updateUser)
+  .delete(deleteUser);
 
 // START SERVER
 const port = 3000;
