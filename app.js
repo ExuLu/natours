@@ -32,7 +32,7 @@ const writeToursFile = (tours, responseCallback) =>
   );
 const findTourIndex = (tourId) => tours.findIndex((tour) => tour.id === tourId);
 
-// ROUTE HANDLERS
+// ROUTE HANDLERS: TOURS
 const getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
@@ -120,7 +120,43 @@ const deleteTour = (req, res) => {
   writeToursFile(updatedTours, responseCallback);
 };
 
-// ROUTES
+// ROUTE HANDLERS: USERS
+const getAllUsers = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined',
+  });
+};
+
+const getUserById = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined',
+  });
+};
+
+const createUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined',
+  });
+};
+
+const updateUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined',
+  });
+};
+
+const deleteUser = (req, res) => {
+  res.status(500).json({
+    status: 'error',
+    message: 'This route is not yet defined',
+  });
+};
+
+// ROUTES: TOURS
 app.route('/api/v1/tours').get(getAllTours).post(createTour);
 app
   .route('/api/v1/tours/:id')
@@ -128,6 +164,7 @@ app
   .patch(updateTour)
   .delete(deleteTour);
 
+// ROUTES: USERS
 app.route('/api/v1/users').get(getAllUsers).post(createUser);
 app
   .route('/api/v1/users/:id')
