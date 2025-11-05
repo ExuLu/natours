@@ -6,7 +6,7 @@ const {
 } = require('../utils/tourUtils');
 
 const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
+  fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
 );
 
 // MIDDLEWARES

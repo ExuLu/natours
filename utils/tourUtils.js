@@ -9,7 +9,7 @@ exports.writeToursFile = (tours, responseCallback) => {
   fs.writeFile(
     `${__dirname}/../dev-data/data/tours-simple.json`,
     JSON.stringify(tours),
-    responseCallback
+    responseCallback,
   );
 };
 
