@@ -19,6 +19,7 @@
     "server": "node --watch server.js"
   },
   "dependencies": {
+    "dotenv": "^17.2.3",
     "express": "^4.21.2",
     "morgan": "^1.10.1"
   }
