@@ -5,12 +5,13 @@ exports.notFoundRes = {
   message: 'Invalid id',
 };
 
-exports.writeToursFile = (tours, responseCallback) =>
+exports.writeToursFile = (tours, responseCallback) => {
   fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
+    `${__dirname}/../dev-data/data/tours-simple.json`,
     JSON.stringify(tours),
     responseCallback
   );
+};
 
 exports.findTourIndex = (tours, tourId) =>
   tours.findIndex((tour) => tour.id === tourId);
