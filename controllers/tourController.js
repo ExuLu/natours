@@ -1,4 +1,5 @@
 const fs = require('fs');
+const Tour = require('../models/tourModel');
 const { writeToursFile, findTourIndex } = require('../utils/tourUtils');
 
 const tours = JSON.parse(
