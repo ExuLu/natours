@@ -1,9 +1,14 @@
 const Tour = require('../models/tourModel');
 
 // CONTROLLERS
-exports.getAllTours = (req, res) => {
+exports.getAllTours = async (req, res) => {
+  const tours = await Tour.find();
+
   res.status(200).json({
     status: 'success',
+    data: {
+      tours,
+    },
   });
 };
 
