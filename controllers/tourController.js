@@ -1,10 +1,4 @@
-const fs = require('fs');
 const Tour = require('../models/tourModel');
-const { writeToursFile, findTourIndex } = require('../utils/tourUtils');
-
-const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
-);
 
 // MIDDLEWARES
 exports.checkBody = (req, res, next) => {
@@ -18,92 +12,38 @@ exports.checkBody = (req, res, next) => {
   next();
 };
 
-exports.checkId = (req, res, next, val) => {
-  console.log(`Tour id is: ${val}`);
-
-  const tourIndex = findTourIndex(tours, Number(val));
-
-  if (tourIndex === -1) {
-    return res.status(404).json({
-      status: 'fail',
-      message: 'Invalid id',
-    });
-  }
-
-  next();
-};
-
 // CONTROLLERS
 exports.getAllTours = (req, res) => {
   res.status(200).json({
     status: 'success',
-    results: tours.length,
-    requestedAt: req.requestTime,
-    data: {
-      tours,
-    },
   });
 };
 
 exports.getTourById = (req, res) => {
-  const tourIndex = findTourIndex(tours, Number(req.params.id));
-
   res.status(200).json({
     status: 'success',
     requestedAt: req.requestTime,
-    data: {
-      tour: tours[tourIndex],
-    },
   });
 };
 
 exports.createTour = (req, res) => {
-  const newId = tours.at(-1).id + 1;
-  const newTour = { id: newId, ...req.body };
-
-  tours.push(newTour);
-
-  const responseCallback = () => {
-    res.status(201).json({
-      status: 'success',
-      data: {
-        tour: newTour,
-      },
-    });
-  };
-  writeToursFile(tours, responseCallback);
+  res.status(201).json({
+    status: 'success',
+  });
 };
 
 exports.updateTour = (req, res) => {
-  const tourIndex = findTourIndex(tours, Number(req.params.id));
-
-  const updatedTour = {
-    ...tours[tourIndex],
-    ...req.body,
-  };
-  const updatedTours = [...tours];
-  updatedTours[tourIndex] = updatedTour;
-
-  const responseCallback = () => {
-    res.status(200).json({
-      status: 'success',
-      data: {
-        tour: updatedTour,
-      },
-    });
-  };
-  writeToursFile(updatedTours, responseCallback);
+  res.status(200).json({
+    status: 'success',
+    // data: {
+    //   tour: updatedTour,
+    // },
+  });
 };
 
 exports.deleteTour = (req, res) => {
-  const tourId = Number(req.params.id);
-
-  const updatedTours = tours.filter((tour) => tour.id !== tourId);
-  const responseCallback = () => {
-    res.status(204).json({
-      status: 'success',
-      data: null,
-    });
-  };
-  writeToursFile(updatedTours, responseCallback);
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
 };
