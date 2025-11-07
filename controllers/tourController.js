@@ -56,13 +56,15 @@ exports.createTour = async (req, res) => {
   }
 };
 
-exports.updateTour = (req, res) => {
+exports.updateTour = async (req, res) => {
+  const updatedTour = await Tour.findByIdAndUpdate(req.params.id, req.body);
+
   try {
     res.status(200).json({
       status: 'success',
-      // data: {
-      //   tour: updatedTour,
-      // },
+      data: {
+        tour: updatedTour,
+      },
     });
   } catch (err) {
     res.status(404).json({
