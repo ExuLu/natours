@@ -106,3 +106,43 @@ exports.aliasTopTours = (req, res, next) => {
 
   next();
 };
+
+exports.getTourStats = async (req, res) => {
+  try {
+    const stats = Tour.aggregate([
+      {
+        $match: {
+          ratingsAverage: {
+            $gte: 4.5,
+          },
+        },
+
+        $group: {
+          _id: null,
+          avgRating: {
+            $avg: '$ratingsAverage',
+          },
+          avgPrice: {
+            $avg: '$price',
+          },
+          minPrice: {
+            $min: '$price',
+          },
+          maxPrice: {
+            $max: '$price',
+          },
+        },
+      },
+    ]);
+
+    res.status(204).json({
+      status: 'success',
+      data: stats,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
+};
