@@ -1,58 +1,74 @@
 const Tour = require('../models/tourModel');
 
-// CONTROLLERS
-exports.getAllTours = async (req, res) => {
-  try {
-    // BUILD QUERY
-    // 1A) Filtering
-    const queryObj = { ...req.query };
+class APIFeatures {
+  constructor(query, queryString) {
+    this.query = query;
+    this.queryString = queryString;
+  }
+
+  filter() {
+    const queryObj = { ...this.queryString };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
     excludedFields.forEach((field) => delete queryObj[field]);
 
-    // 1B) Advanced filtering
-    let queryString = JSON.stringify(queryObj);
-    queryString = queryString.replace(
-      /\b(gte|gt|lte|lt)\b/g,
-      (match) => `$${match}`,
-    );
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-    let query = Tour.find(JSON.parse(queryString));
+    this.query.find(JSON.parse(queryStr));
 
-    // 2) Sorting
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(',').join(' ');
-      query = query.sort(sortBy);
+    return this;
+  }
+
+  sort() {
+    if (this.queryString.sort) {
+      const sortBy = this.queryString.sort.split(',').join(' ');
+      this.query = this.query.sort(sortBy);
     } else {
-      query = query.sort('-createdAt');
+      this.query = this.query.sort('-createdAt');
     }
 
-    // 3) Field limiting
-    if (req.query.fields) {
-      const fields = req.query.fields.split(',').join(' ');
-      query = query.select(fields);
+    return this;
+  }
+
+  limitFields() {
+    if (this.queryString.fields) {
+      const fields = this.queryString.fields.split(',').join(' ');
+      this.query = this.query.select(fields);
     } else {
-      query = query.select('-__v');
+      this.query = this.query.select('-__v');
     }
 
-    // 4) Pagination
-    const page = Number(req.query.page) || 1;
-    const limitPerPage = Number(req.query.limit) || 100;
+    return this;
+  }
+
+  paginate(numTours) {
+    const page = Number(this.queryString.page) || 1;
+    const limitPerPage = Number(this.queryString.limit) || 100;
     const skip = (page - 1) * limitPerPage;
 
-    query = query.skip(skip).limit(limitPerPage);
+    this.query = this.query.skip(skip).limit(limitPerPage);
 
-    if (req.query.page) {
-      const numTours = await Tour.countDocuments();
-
+    if (this.queryString.page) {
       if (skip >= numTours) {
         throw new Error('This page does not exist');
       }
     }
 
-    // EXECUTE QUERY
-    const tours = await query;
+    return this;
+  }
+}
 
-    // SEND RESPONSE
+// CONTROLLERS
+exports.getAllTours = async (req, res) => {
+  try {
+    const numTours = await Tour.countDocuments();
+    const features = new APIFeatures(Tour.find(), req.query)
+      .filter()
+      .sort()
+      .limitFields()
+      .paginate(numTours);
+    const tours = await features.query;
+
     res.status(200).json({
       status: 'success',
       results: tours.length,
@@ -140,6 +156,7 @@ exports.deleteTour = async (req, res) => {
   }
 };
 
+// MIDDLEWARES
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
   req.query.sort = '-ratingsAverage,price';
