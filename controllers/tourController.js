@@ -14,7 +14,7 @@ class APIFeatures {
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
 
-    this.query.find(JSON.parse(queryStr));
+    this.query = this.query.find(JSON.parse(queryStr));
 
     return this;
   }
@@ -41,18 +41,12 @@ class APIFeatures {
     return this;
   }
 
-  paginate(numTours) {
+  paginate() {
     const page = Number(this.queryString.page) || 1;
     const limitPerPage = Number(this.queryString.limit) || 100;
     const skip = (page - 1) * limitPerPage;
 
     this.query = this.query.skip(skip).limit(limitPerPage);
-
-    if (this.queryString.page) {
-      if (skip >= numTours) {
-        throw new Error('This page does not exist');
-      }
-    }
 
     return this;
   }
@@ -61,12 +55,11 @@ class APIFeatures {
 // CONTROLLERS
 exports.getAllTours = async (req, res) => {
   try {
-    const numTours = await Tour.countDocuments();
     const features = new APIFeatures(Tour.find(), req.query)
       .filter()
       .sort()
       .limitFields()
-      .paginate(numTours);
+      .paginate();
     const tours = await features.query;
 
     res.status(200).json({
