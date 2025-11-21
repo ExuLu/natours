@@ -32,6 +32,13 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+userSchema.pre('save', function (next) {
+  if (this.isModified('password')) return next();
+
+  
+  next();
+});
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
