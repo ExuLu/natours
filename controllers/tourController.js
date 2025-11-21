@@ -1,9 +1,6 @@
 const Tour = require('../models/tourModel');
 const APIFeatures = require('../utils/apiFeatures');
-
-const catchAsync = (fn) => (req, res, next) => {
-  fn(req, res, next).catch(next);
-};
+const catchAsync = require('../utils/catchAsync');
 
 // CONTROLLERS
 exports.getAllTours = async (req, res) => {
