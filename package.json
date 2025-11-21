@@ -18,7 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "node --inspect server.js",
     "start": "node --watch server.js",
-    "start:prod": "NODE_ENV=production nodemon server.js"
+    "start:prod": "NODE_ENV=production node --watch server.js"
   },
   "dependencies": {
     "dotenv": "^17.2.3",
