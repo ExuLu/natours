@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
       validator: function (value) {
         return value === this.password;
       },
-      message: 'A password should be the same as in previous field',
+      message: 'Passwords are not the same',
     },
   },
 });
