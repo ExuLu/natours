@@ -21,8 +21,10 @@
     "start:prod": "NODE_ENV=production node --watch server.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^7.0.0",
     "mongoose": "^5.13.23",
     "morgan": "^1.10.1",
