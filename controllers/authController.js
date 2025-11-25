@@ -49,6 +49,9 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
-  
+  if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    const token = req.headers.authorization.split(' ')[1];
+    console.log(token);
+  }
   next();
 });
