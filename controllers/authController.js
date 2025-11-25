@@ -31,6 +31,12 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('Please provide an email and a password', 400));
   }
 
+  const user = await User.findOne({ email }).select('+password');
+
+  if (!user) {
+    return next(new AppError('There is no user with such an email', 404));
+  }
+
   const token = 'token';
 
   res.status(200).json({
