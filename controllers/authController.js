@@ -103,5 +103,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
   if (!user)
     return next(new AppError('There is no user with email address', 404));
+
+  
 });
 exports.resetPassword = catchAsync(async (req, res, next) => {});
