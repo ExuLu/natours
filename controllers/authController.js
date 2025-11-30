@@ -164,9 +164,17 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  console.log(req.user);
+  const { user } = req;
+
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+
+  await user.save();
+
+  const token = signToken(user._id);
 
   res.status(200).json({
     status: 'success',
+    token,
   });
 });
