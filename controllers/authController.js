@@ -150,7 +150,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
-  user.passwordChangedAt = Date.now();
   user.passwordResetToken = undefined;
   user.passwordResetExpired = undefined;
 
@@ -161,8 +160,5 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     token,
-    data: {
-      user: user,
-    },
   });
 });
