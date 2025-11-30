@@ -5,7 +5,11 @@ const catchAsync = require('../utils/catchAsync');
 
 // CONTROLLERS
 exports.getAllTours = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Tour.find(), req.query).filter().sort().limitFields().paginate();
+  const features = new APIFeatures(Tour.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
   const tours = await features.query;
 
   res.status(200).json({
