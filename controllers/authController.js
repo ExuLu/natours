@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
@@ -131,4 +132,41 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     );
   }
 });
-exports.resetPassword = catchAsync(async (req, res, next) => {});
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+  const hashedToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+  const user = await User.findOne({ passwordResetToken: hashedToken });
+
+  if (!req.body.password || !req.body.passwordConfirm)
+    next(
+      new AppError(
+        'Please provide valid password and password confirmation',
+        400,
+      ),
+    );
+
+  if (user && user.passwordResetExpired.getTime() > Date.now()) {
+    const updatedFields = {
+      ...req.body,
+      passwordResetExpired: undefined,
+      passwordResetToken: undefined,
+      passwordChangedAt: Date.now(),
+    };
+
+    const updatedUser = await User.findByIdAndUpdate(user._id, updatedFields, {
+      new: true,
+      runValidators: true,
+    });
+
+    return res.status(200).json({
+      status: 'success',
+      data: {
+        user: updatedUser,
+      },
+    });
+  }
+  next(new AppError('Please provide valid reset token', 400));
+});
