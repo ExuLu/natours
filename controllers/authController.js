@@ -138,7 +138,11 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     .createHash('sha256')
     .update(req.params.token)
     .digest('hex');
-  const user = await User.findOne({ passwordResetToken: hashedToken });
+
+  const user = await User.findOne({
+    passwordResetToken: hashedToken,
+    passwordResetExpired: { $gt: Date.now() },
+  });
 
   if (!req.body.password || !req.body.passwordConfirm)
     next(
@@ -148,7 +152,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
       ),
     );
 
-  if (user && user.passwordResetExpired.getTime() > Date.now()) {
+  if (user) {
     const updatedFields = {
       ...req.body,
       passwordResetExpired: undefined,
