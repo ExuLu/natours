@@ -162,3 +162,11 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     token,
   });
 });
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  console.log(req.user);
+
+  res.status(200).json({
+    status: 'success',
+  });
+});
