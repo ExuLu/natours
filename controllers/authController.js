@@ -144,33 +144,22 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     passwordResetExpired: { $gt: Date.now() },
   });
 
-  if (!req.body.password || !req.body.passwordConfirm)
-    next(
-      new AppError(
-        'Please provide valid password and password confirmation',
-        400,
-      ),
-    );
-
-  if (user) {
-    const updatedFields = {
-      ...req.body,
-      passwordResetExpired: undefined,
-      passwordResetToken: undefined,
-      passwordChangedAt: Date.now(),
-    };
-
-    const updatedUser = await User.findByIdAndUpdate(user._id, updatedFields, {
-      new: true,
-      runValidators: true,
-    });
-
-    return res.status(200).json({
-      status: 'success',
-      data: {
-        user: updatedUser,
-      },
-    });
+  if (!user) {
+    return next(new AppError('Token is invalid or has expired', 400));
   }
-  next(new AppError('Please provide valid reset token', 400));
+
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+  user.passwordChangedAt = Date.now();
+  user.passwordResetToken = undefined;
+  user.passwordResetExpired = undefined;
+
+  await user.save();
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user: user,
+    },
+  });
 });
