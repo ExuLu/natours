@@ -60,6 +60,17 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.deleteMe = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id).select('+active');
+
+  user.active = false;
+  user.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    status: 'success',
+  });
+});
+
 exports.updateUser = (req, res) => {
   res.status(500).json({
     status: 'error',
