@@ -61,13 +61,11 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.user._id).select('+active');
+  await User.findByIdAndUpdate(req.user._id, { active: false });
 
-  user.active = false;
-  user.save({ validateBeforeSave: false });
-
-  res.status(200).json({
+  res.status(204).json({
     status: 'success',
+    data: null,
   });
 });
 
