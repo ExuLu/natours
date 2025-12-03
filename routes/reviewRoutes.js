@@ -10,4 +10,6 @@ router
   .get(reviewController.getReviews)
   .post(authController.protect, reviewController.createReview);
 
+router.route('/:id').get(reviewController.getReviewById);
+
 module.exports = router;
