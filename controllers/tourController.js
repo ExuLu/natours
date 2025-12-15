@@ -5,7 +5,7 @@ const getQueryWithFeatures = require('../utils/getQueryWithFeatures');
 
 // CONTROLLERS
 exports.getAllTours = catchAsync(async (req, res, next) => {
-  const tours = await getQueryWithFeatures(Tour, req.query);
+  const tours = await getQueryWithFeatures(Tour.find(), req.query);
 
   res.status(200).json({
     status: 'success',
