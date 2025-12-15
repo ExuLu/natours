@@ -31,6 +31,11 @@ router
     authController.protect,
     authController.restrictTo('admin'),
     userController.deleteUser,
+  )
+  .patch(
+    authController.protect,
+    authController.restrictTo('admin'),
+    userController.updateUser,
   );
 
 module.exports = router;
