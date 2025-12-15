@@ -14,3 +14,26 @@ exports.deleteOneHandler = (Model) =>
       data: null,
     });
   });
+
+exports.updateOne = (Model) =>
+  catchAsync(async (req, res, next) => {
+    const updatedDocument = await Model.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    if (!updatedDocument) {
+      return next(new AppError('No document found with this id', 404));
+    }
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        tour: updatedDocument,
+      },
+    });
+  });
