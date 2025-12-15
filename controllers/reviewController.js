@@ -4,7 +4,17 @@ const catchAsync = require('../utils/catchAsync');
 const getQueryWithFeatures = require('../utils/getQueryWithFeatures');
 
 exports.getReviews = catchAsync(async (req, res, next) => {
-  const reviews = await getQueryWithFeatures(Review, req.query);
+  const { tourId } = req.params;
+
+  let reviews;
+  if (!tourId) {
+    reviews = await getQueryWithFeatures(Review.find(), req.query);
+  } else {
+    reviews = await getQueryWithFeatures(
+      Review.find({ tour: { $eq: tourId } }),
+      req.query,
+    );
+  }
 
   res.status(200).json({
     status: 'success',

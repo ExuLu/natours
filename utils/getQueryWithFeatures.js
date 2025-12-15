@@ -1,7 +1,7 @@
 const APIFeatures = require('./apiFeatures');
 
 module.exports = async (model, query) => {
-  const features = new APIFeatures(model.find(), query)
+  const features = new APIFeatures(model, query)
     .filter()
     .sort()
     .limitFields()
