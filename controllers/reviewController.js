@@ -2,6 +2,7 @@ const Review = require('../models/reviewModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const getQueryWithFeatures = require('../utils/getQueryWithFeatures');
+const factory = require('./handlerFactory');
 
 exports.getReviews = catchAsync(async (req, res, next) => {
   const { tourId } = req.params;
@@ -52,3 +53,5 @@ exports.createReview = catchAsync(async (req, res, next) => {
     },
   });
 });
+
+exports.deleteReview = factory.deleteOneHandler(Review);
