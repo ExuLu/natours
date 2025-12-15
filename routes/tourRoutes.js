@@ -25,6 +25,13 @@ router
     authController.restrictTo('admin', 'lead-guide'),
     tourController.deleteTour,
   );
-router.route('/:tourId/reviews').get(reviewController.getReviews);
+router
+  .route('/:tourId/reviews')
+  .get(reviewController.getReviews)
+  .post(
+    authController.protect,
+    authController.restrictTo('user'),
+    reviewController.createReview,
+  );
 
 module.exports = router;
