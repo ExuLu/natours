@@ -41,14 +41,11 @@ exports.getReviewById = catchAsync(async (req, res, next) => {
 });
 
 exports.createReview = catchAsync(async (req, res, next) => {
-  const { tourId } = req.params;
-  if (!tourId) {
-    next(new AppError('Please, provide the tour id', 400));
-  }
+  if (!req.body.tour) req.body.tour = req.params.tourId;
+  if (!req.body.user) req.body.user = req.user._id;
+
   const newReview = await Review.create({
     ...req.body,
-    user: req.user._id,
-    tour: req.params.tourId,
   });
 
   res.status(201).json({
