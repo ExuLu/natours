@@ -1,6 +1,5 @@
 const Review = require('../models/reviewModel');
 const catchAsync = require('../utils/catchAsync');
-const getQueryWithFeatures = require('../utils/getQueryWithFeatures');
 const factory = require('./handlerFactory');
 
 exports.getReviews = catchAsync(async (req, res, next) => {

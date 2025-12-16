@@ -1,21 +1,9 @@
 const Tour = require('../models/tourModel');
 const catchAsync = require('../utils/catchAsync');
-const getQueryWithFeatures = require('../utils/getQueryWithFeatures');
 const factory = require('./handlerFactory');
 
 // CONTROLLERS
-exports.getAllTours = catchAsync(async (req, res, next) => {
-  const tours = await getQueryWithFeatures(Tour.find(), req.query);
-
-  res.status(200).json({
-    status: 'success',
-    results: tours.length,
-    data: {
-      tours,
-    },
-  });
-});
-
+exports.getAllTours = factory.getAll(Tour);
 exports.getTourById = factory.getOne(Tour, { path: 'reviews' });
 exports.createTour = factory.createOne(Tour);
 exports.updateTour = factory.updateOne(Tour);
