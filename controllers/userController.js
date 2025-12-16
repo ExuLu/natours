@@ -11,18 +11,6 @@ const filterObj = (obj, ...allowedFields) =>
     return newObject;
   }, {});
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find({});
-
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    data: {
-      users,
-    },
-  });
-});
-
 exports.updateMe = catchAsync(async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
     return next(
@@ -63,6 +51,7 @@ exports.createUser = (req, res) => {
   });
 };
 
+exports.getAllUsers = factory.getAll(User);
 exports.getUserById = factory.getOne(User);
 exports.updateUser = factory.updateOne(User);
 exports.deleteUser = factory.deleteOneHandler(User);
