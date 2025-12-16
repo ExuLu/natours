@@ -44,6 +44,11 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getMe = catchAsync(async (req, res, next) => {
+  req.params.id = req.user._id;
+  next();
+});
+
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
