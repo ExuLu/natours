@@ -2,25 +2,7 @@ const Review = require('../models/reviewModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
 
-exports.getReviews = catchAsync(async (req, res, next) => {
-  const { tourId } = req.params;
-  let filter = {};
-
-  if (tourId) {
-    filter = { tour: tourId };
-  }
-
-  const reviews = await getQueryWithFeatures(Review.find(filter), req.query);
-
-  res.status(200).json({
-    status: 'success',
-    results: reviews.length,
-    data: {
-      reviews,
-    },
-  });
-});
-
+exports.getReviews = factory.getAll(Review);
 exports.getReviewById = factory.getOne(Review);
 exports.createReview = factory.createOne(Review);
 exports.updateReview = factory.updateOne(Review);

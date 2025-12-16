@@ -75,7 +75,14 @@ exports.getOne = (Model, populateOptions) =>
 
 exports.getAll = (Model) =>
   catchAsync(async (req, res, next) => {
-    const features = new APIFeatures(Model, req.query)
+    const { tourId } = req.params;
+    let filter = {};
+
+    if (tourId) {
+      filter = { tour: tourId };
+    }
+
+    const features = new APIFeatures(Model.find(filter), req.query)
       .filter()
       .sort()
       .limitFields()
