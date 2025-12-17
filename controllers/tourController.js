@@ -9,6 +9,10 @@ exports.createTour = factory.createOne(Tour);
 exports.updateTour = factory.updateOne(Tour);
 exports.deleteTour = factory.deleteOneHandler(Tour);
 
+exports.getToursWithin = catchAsync((req, res, next) => {
+  
+})
+
 // MIDDLEWARES
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
