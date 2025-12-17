@@ -54,8 +54,17 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
   });
 };
 
-reviewSchema.post('save', function () {
-  this.constructor.calcAverageRatings(this.tour);
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+  this.review = await this.findOne();
+  next();
+});
+
+reviewSchema.post(/^findOneAnd/, async function () {
+  await this.review.constructor.calcAverageRatings(this.review.tour);
+});
+
+reviewSchema.post('save', async function () {
+  await this.constructor.calcAverageRatings(this.tour);
 });
 
 reviewSchema.pre(/^find/, function (next) {
