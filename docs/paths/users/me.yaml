@@ -1,0 +1,12 @@
+/users/me:
+  get:
+    tags: [Users]
+    summary: Get current user
+    description: Returns the authenticated user's document.
+    responses:
+      '200':
+        description: Current user retrieved
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserResponse'

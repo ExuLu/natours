@@ -1,0 +1,18 @@
+/users/updateMe:
+  patch:
+    tags: [Users]
+    summary: Update current user profile
+    description: Authenticated users can update their name and email via this route.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserUpdateMeRequest'
+    responses:
+      '200':
+        description: User updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserSelfResponse'

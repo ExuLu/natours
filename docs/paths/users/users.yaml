@@ -1,0 +1,29 @@
+/users:
+  get:
+    tags: [Users]
+    summary: List users
+    description: Admin-only list of all users.
+    responses:
+      '200':
+        description: Users list
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsersResponse'
+  post:
+    tags: [Users]
+    summary: Create user
+    description: Admin-only creation endpoint (normal signup uses /signup).
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserCreateRequest'
+    responses:
+      '201':
+        description: Created user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserResponse'

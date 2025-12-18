@@ -1,0 +1,61 @@
+/users/{id}:
+  get:
+    tags: [Users]
+    summary: Get user by id
+    description: Admin-only access to retrieve a user by id.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: User id (MongoDB ObjectId).
+    responses:
+      '200':
+        description: User found
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserResponse'
+  patch:
+    tags: [Users]
+    summary: Update user
+    description: Admin-only update for any user.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: User id (MongoDB ObjectId).
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserUpdateRequest'
+    responses:
+      '200':
+        description: Updated user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserResponse'
+  delete:
+    tags: [Users]
+    summary: Delete user
+    description: Admin-only delete.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: User id (MongoDB ObjectId).
+    responses:
+      '204':
+        description: User deleted
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDeleteResponse'
