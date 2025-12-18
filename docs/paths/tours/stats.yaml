@@ -1,0 +1,12 @@
+/tours/tour-stats:
+  get:
+    tags: [Tours]
+    summary: Get tour statistics
+    description: Aggregated stats grouped by difficulty for tours with ratingsAverage >= 4.5.
+    responses:
+      '200':
+        description: Aggregated stats
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TourStatsResponse'
