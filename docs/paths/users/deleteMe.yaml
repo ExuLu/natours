@@ -11,4 +11,4 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserDeleteResponse'
+              $ref: '../../components/schemas/User.yaml#/UserDeleteResponse'

@@ -6,13 +6,13 @@
     requestBody:
       required: true
       content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserCreateRequest'
+          application/json:
+            schema:
+              $ref: '../../components/schemas/User.yaml#/UserCreateRequest'
     responses:
       '201':
         description: User created and signed in
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AuthTokenResponse'
+              $ref: '../../components/schemas/User.yaml#/AuthTokenResponse'

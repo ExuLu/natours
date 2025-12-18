@@ -8,13 +8,13 @@
     requestBody:
       required: true
       content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserUpdateMeRequest'
+          application/json:
+            schema:
+              $ref: '../../components/schemas/User.yaml#/UserUpdateMeRequest'
     responses:
       '200':
         description: User updated
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserSelfResponse'
+              $ref: '../../components/schemas/User.yaml#/UserSelfResponse'

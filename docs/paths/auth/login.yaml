@@ -6,13 +6,13 @@
     requestBody:
       required: true
       content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UserLoginRequest'
+          application/json:
+            schema:
+              $ref: '../../components/schemas/User.yaml#/UserLoginRequest'
     responses:
       '200':
         description: Logged in
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AuthTokenResponse'
+              $ref: '../../components/schemas/User.yaml#/AuthTokenResponse'

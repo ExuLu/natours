@@ -18,7 +18,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReviewResponse'
+              $ref: '../../components/schemas/Review.yaml#/ReviewResponse'
   patch:
     tags: [Reviews]
     summary: Update review
@@ -35,16 +35,16 @@
     requestBody:
       required: true
       content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ReviewUpdateRequest'
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Review.yaml#/ReviewUpdateRequest'
     responses:
       '200':
         description: Review updated
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReviewResponse'
+              $ref: '../../components/schemas/Review.yaml#/ReviewResponse'
   delete:
     tags: [Reviews]
     summary: Delete review
@@ -64,4 +64,4 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReviewDeleteResponse'
+              $ref: '../../components/schemas/Review.yaml#/ReviewDeleteResponse'

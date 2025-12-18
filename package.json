@@ -18,7 +18,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "node --inspect server.js",
     "start": "node --watch server.js",
-    "start:prod": "NODE_ENV=production node --watch server.js"
+    "start:prod": "NODE_ENV=production node --watch server.js",
+    "validate:docs": "node -e \"const p=require('@apidevtools/swagger-parser');p.validate('docs/openapi.yaml').then(()=>{console.log('OpenAPI valid');}).catch(err=>{console.error(err);process.exit(1);});\""
   },
   "dependencies": {
     "@apidevtools/swagger-parser": "^12.1.0",

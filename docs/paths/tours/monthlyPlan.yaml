@@ -19,4 +19,4 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TourMonthlyPlanResponse'
+              $ref: '../../components/schemas/Tour.yaml#/TourMonthlyPlanResponse'

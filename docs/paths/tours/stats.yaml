@@ -9,4 +9,4 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TourStatsResponse'
+              $ref: '../../components/schemas/Tour.yaml#/TourStatsResponse'

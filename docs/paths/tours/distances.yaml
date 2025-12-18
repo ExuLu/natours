@@ -24,4 +24,4 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TourDistancesResponse'
+              $ref: '../../components/schemas/Tour.yaml#/TourDistancesResponse'

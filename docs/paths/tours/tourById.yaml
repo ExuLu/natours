@@ -16,7 +16,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TourWithReviewsResponse'
+              $ref: '../../components/schemas/Tour.yaml#/TourWithReviewsResponse'
   patch:
     tags: [Tours]
     summary: Update a tour
@@ -33,16 +33,16 @@
     requestBody:
       required: true
       content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/TourUpdateRequest'
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/TourUpdateRequest'
     responses:
       '200':
         description: Updated tour
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TourResponse'
+              $ref: '../../components/schemas/Tour.yaml#/TourResponse'
   delete:
     tags: [Tours]
     summary: Delete a tour
@@ -62,4 +62,4 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TourDeleteResponse'
+              $ref: '../../components/schemas/Tour.yaml#/TourDeleteResponse'

@@ -18,7 +18,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReviewsResponse'
+              $ref: '../../components/schemas/Review.yaml#/ReviewsResponse'
   post:
     tags: [Reviews]
     summary: Create review for a tour
@@ -35,13 +35,13 @@
     requestBody:
       required: true
       content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ReviewCreateRequest'
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Review.yaml#/ReviewCreateRequest'
     responses:
       '201':
         description: Review created
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ReviewResponse'
+              $ref: '../../components/schemas/Review.yaml#/ReviewResponse'

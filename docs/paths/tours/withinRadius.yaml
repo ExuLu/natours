@@ -31,4 +31,4 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ToursResponse'
+              $ref: '../../components/schemas/Tour.yaml#/ToursResponse'

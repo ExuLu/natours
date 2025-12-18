@@ -18,7 +18,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserResponse'
+              $ref: '../../components/schemas/User.yaml#/UserResponse'
   patch:
     tags: [Users]
     summary: Update user
@@ -36,15 +36,15 @@
       required: true
       content:
         application/json:
-          schema:
-            $ref: '#/components/schemas/UserUpdateRequest'
+            schema:
+              $ref: '../../components/schemas/User.yaml#/UserUpdateRequest'
     responses:
       '200':
         description: Updated user
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserResponse'
+              $ref: '../../components/schemas/User.yaml#/UserResponse'
   delete:
     tags: [Users]
     summary: Delete user
@@ -64,4 +64,4 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserDeleteResponse'
+              $ref: '../../components/schemas/User.yaml#/UserDeleteResponse'

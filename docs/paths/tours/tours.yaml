@@ -50,7 +50,7 @@
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ToursResponse'
+              $ref: '../../components/schemas/Tour.yaml#/ToursResponse'
   post:
     tags: [Tours]
     summary: Create a tour
@@ -60,13 +60,13 @@
     requestBody:
       required: true
       content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/TourCreateRequest'
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/TourCreateRequest'
     responses:
       '201':
         description: Created tour
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TourResponse'
+              $ref: '../../components/schemas/Tour.yaml#/TourResponse'
