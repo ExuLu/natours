@@ -10,7 +10,10 @@ exports.createTour = factory.createOne(Tour);
 exports.updateTour = factory.updateOne(Tour);
 exports.deleteTour = factory.deleteOneHandler(Tour);
 
-// '/tours-within/:distance/center/:latlng/unit/:unit',
+exports.getDistances = catchAsync(async(req, res, next) => {
+  
+})
+
 exports.getToursWithin = catchAsync(async (req, res, next) => {
   const { distance, latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
