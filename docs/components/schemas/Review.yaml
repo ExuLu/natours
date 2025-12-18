@@ -1,0 +1,109 @@
+Review:
+  type: object
+  description: Review resource returned by review endpoints (user populated with name and photo).
+  properties:
+    _id:
+      type: string
+      example: '5c8a34ed14eb5c17645c9108'
+      readOnly: true
+    id:
+      type: string
+      example: '5c8a34ed14eb5c17645c9108'
+      readOnly: true
+    review:
+      type: string
+      example: 'Amazing tour, would do again!'
+    rating:
+      type: number
+      minimum: 1
+      maximum: 5
+      example: 4.8
+    createdAt:
+      type: string
+      format: date-time
+      example: '2025-12-16T17:01:59.314Z'
+    tour:
+      type: string
+      description: Tour ObjectId
+      example: '5c88fa8cf4afda39709c2955'
+    user:
+      $ref: './User.yaml#/UserPublic'
+    __v:
+      type: integer
+      example: 0
+      readOnly: true
+
+ReviewWrite:
+  type: object
+  description: Writable fields for reviews (tour/user may be auto-injected by route middleware).
+  properties:
+    review:
+      type: string
+      example: 'Amazing tour, would do again!'
+    rating:
+      type: number
+      minimum: 1
+      maximum: 5
+      example: 4.8
+    tour:
+      type: string
+      description: Tour ObjectId
+      example: '5c88fa8cf4afda39709c2955'
+    user:
+      type: string
+      description: User ObjectId
+      example: '5c8a1dfa2f8fb814b56fa181'
+
+ReviewCreateRequest:
+  allOf:
+    - $ref: './Review.yaml#/ReviewWrite'
+    - type: object
+      required: [review, rating]
+
+ReviewUpdateRequest:
+  allOf:
+    - $ref: './Review.yaml#/ReviewWrite'
+    - type: object
+      description: All fields optional for PATCH
+
+ReviewResponse:
+  type: object
+  description: Envelope returned by single review GET/POST/PATCH
+  properties:
+    status:
+      type: string
+      example: success
+    data:
+      type: object
+      properties:
+        data:
+          $ref: './Review.yaml#/Review'
+
+ReviewsResponse:
+  type: object
+  description: Envelope returned by GET /reviews and nested tour reviews.
+  properties:
+    status:
+      type: string
+      example: success
+    results:
+      type: integer
+      example: 2
+    data:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: './Review.yaml#/Review'
+
+ReviewDeleteResponse:
+  type: object
+  description: Response for DELETE review
+  properties:
+    status:
+      type: string
+      example: success
+    data:
+      nullable: true
+      example: null

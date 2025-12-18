@@ -1,0 +1,18 @@
+/users/login:
+  post:
+    tags: [Auth]
+    summary: Log in
+    description: Authenticates a user and returns a JWT token.
+    requestBody:
+      required: true
+      content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/User.yaml#/UserLoginRequest'
+    responses:
+      '200':
+        description: Logged in
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/User.yaml#/AuthTokenResponse'

@@ -1,0 +1,72 @@
+/tours:
+  get:
+    tags: [Tours]
+    summary: List tours
+    description: >
+      Returns paginated tours (secret tours are excluded by middleware). Supports filtering (including gte/gt/lte/lt),
+      sorting, field limiting, and pagination via query parameters.
+    parameters:
+      - in: query
+        name: page
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+        description: Page number for pagination.
+      - in: query
+        name: limit
+        schema:
+          type: integer
+          minimum: 1
+          default: 100
+        description: Max results per page.
+      - in: query
+        name: sort
+        schema:
+          type: string
+          example: '-ratingsAverage,price'
+        description: Comma separated fields, prefix with '-' for descending.
+      - in: query
+        name: fields
+        schema:
+          type: string
+          example: 'name,price,ratingsAverage,summary,difficulty'
+        description: Comma separated field selection for projection.
+      - in: query
+        name: difficulty
+        schema:
+          type: string
+          enum: [easy, medium, difficult]
+        description: Filter by difficulty.
+      - in: query
+        name: price[lt]
+        schema:
+          type: number
+          example: 500
+        description: Filter price by comparison (lt, lte, gt, gte supported on numeric fields).
+    responses:
+      '200':
+        description: A list of tours
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/ToursResponse'
+  post:
+    tags: [Tours]
+    summary: Create a tour
+    description: Requires authentication as admin or lead-guide.
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/TourCreateRequest'
+    responses:
+      '201':
+        description: Created tour
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/TourResponse'

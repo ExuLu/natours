@@ -1,0 +1,226 @@
+User:
+  type: object
+  description: User resource returned by user endpoints (password is never returned).
+  properties:
+    _id:
+      type: string
+      example: '5c8a1dfa2f8fb814b56fa181'
+      readOnly: true
+    id:
+      type: string
+      description: Virtual getter (string version of _id)
+      example: '5c8a1dfa2f8fb814b56fa181'
+      readOnly: true
+    name:
+      type: string
+      example: 'Lourdes Browning'
+    email:
+      type: string
+      format: email
+      example: 'lourdes@example.com'
+    role:
+      type: string
+      enum: [user, admin, guide, lead-guide]
+      default: user
+      example: guide
+    photo:
+      type: string
+      nullable: true
+      example: 'user-2.jpg'
+    passwordChangedAt:
+      type: string
+      format: date-time
+      nullable: true
+      readOnly: true
+      description: Set when the password was last changed.
+
+UserPublic:
+  allOf:
+    - $ref: './User.yaml#/User'
+    - type: object
+      description: Public-facing user fields (no extra properties)
+
+UserCreateRequest:
+  type: object
+  description: Payload to create a user (used by /signup).
+  required: [name, email, password, passwordConfirm]
+  properties:
+    name:
+      type: string
+      example: 'Lourdes Browning'
+    email:
+      type: string
+      format: email
+      example: 'lourdes@example.com'
+    password:
+      type: string
+      minLength: 8
+      example: 'test1234'
+    passwordConfirm:
+      type: string
+      minLength: 8
+      example: 'test1234'
+    role:
+      type: string
+      enum: [user, admin, guide, lead-guide]
+      default: user
+
+UserLoginRequest:
+  type: object
+  required: [email, password]
+  properties:
+    email:
+      type: string
+      format: email
+      example: 'lourdes@example.com'
+    password:
+      type: string
+      example: 'test1234'
+
+UserForgotPasswordRequest:
+  type: object
+  required: [email]
+  properties:
+    email:
+      type: string
+      format: email
+      example: 'lourdes@example.com'
+
+UserResetPasswordRequest:
+  type: object
+  required: [password, passwordConfirm]
+  properties:
+    password:
+      type: string
+      minLength: 8
+      example: 'newPass123'
+    passwordConfirm:
+      type: string
+      minLength: 8
+      example: 'newPass123'
+
+UserUpdatePasswordRequest:
+  type: object
+  required: [currentPassword, password, passwordConfirm]
+  properties:
+    currentPassword:
+      type: string
+      example: 'oldPass123'
+    password:
+      type: string
+      minLength: 8
+      example: 'newPass123'
+    passwordConfirm:
+      type: string
+      minLength: 8
+      example: 'newPass123'
+
+UserUpdateMeRequest:
+  type: object
+  description: Self-service profile update (only name and email are accepted).
+  properties:
+    name:
+      type: string
+      example: 'New Name'
+    email:
+      type: string
+      format: email
+      example: 'newemail@example.com'
+
+UserUpdateRequest:
+  type: object
+  description: Admin update payload for /users/:id (validated by Mongoose).
+  properties:
+    name:
+      type: string
+    email:
+      type: string
+      format: email
+    role:
+      type: string
+      enum: [user, admin, guide, lead-guide]
+    photo:
+      type: string
+
+UserResponse:
+  type: object
+  description: Envelope returned by admin/user GET/POST/PATCH handlers
+  properties:
+    status:
+      type: string
+      example: success
+    data:
+      type: object
+      properties:
+        data:
+          $ref: './User.yaml#/User'
+
+UsersResponse:
+  type: object
+  description: Envelope returned by GET /users
+  properties:
+    status:
+      type: string
+      example: success
+    results:
+      type: integer
+      example: 2
+    data:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: './User.yaml#/User'
+
+UserSelfResponse:
+  type: object
+  description: Response returned by PATCH /users/updateMe
+  properties:
+    status:
+      type: string
+      example: success
+    data:
+      type: object
+      properties:
+        updatedUser:
+          $ref: './User.yaml#/User'
+
+UserDeleteResponse:
+  type: object
+  description: Response for DELETE /users/:id and DELETE /users/deleteMe
+  properties:
+    status:
+      type: string
+      example: success
+    data:
+      nullable: true
+      example: null
+
+AuthTokenResponse:
+  type: object
+  description: Authentication success response (login, signup, resetPassword, updateMyPassword)
+  properties:
+    status:
+      type: string
+      example: success
+    token:
+      type: string
+      example: 'eyJhbGciOi...'
+    data:
+      type: object
+      nullable: true
+      properties:
+        user:
+          $ref: './User.yaml#/User'
+
+UserForgotPasswordResponse:
+  type: object
+  description: Response returned by POST /users/forgotPassword
+  properties:
+    status:
+      type: string
+      example: success
+    message:
+      type: string
+      example: Token sent to email

@@ -1,0 +1,67 @@
+/reviews/{id}:
+  get:
+    tags: [Reviews]
+    summary: Get review by id
+    description: Returns a single review with user populated.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Review id (MongoDB ObjectId).
+    responses:
+      '200':
+        description: Review found
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Review.yaml#/ReviewResponse'
+  patch:
+    tags: [Reviews]
+    summary: Update review
+    description: Admin or review owner (role user) can update a review.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Review id (MongoDB ObjectId).
+    requestBody:
+      required: true
+      content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Review.yaml#/ReviewUpdateRequest'
+    responses:
+      '200':
+        description: Review updated
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Review.yaml#/ReviewResponse'
+  delete:
+    tags: [Reviews]
+    summary: Delete review
+    description: Admin or review owner (role user) can delete a review.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Review id (MongoDB ObjectId).
+    responses:
+      '204':
+        description: Review deleted
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Review.yaml#/ReviewDeleteResponse'

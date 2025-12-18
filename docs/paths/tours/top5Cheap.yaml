@@ -1,0 +1,12 @@
+/tours/top-5-best:
+  get:
+    tags: [Tours]
+    summary: Get top 5 tours
+    description: Returns the top 5 tours sorted by highest ratingsAverage then price (alias middleware sets limit/sort/fields).
+    responses:
+      '200':
+        description: Top 5 tours
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/ToursResponse'

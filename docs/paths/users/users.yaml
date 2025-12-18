@@ -1,0 +1,34 @@
+/users:
+  get:
+    tags: [Users]
+    summary: List users
+    description: Admin-only list of all users.
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: Users list
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/User.yaml#/UsersResponse'
+  post:
+    tags: [Users]
+    summary: Create user (not implemented)
+    description: Admin-only route placeholder; responds with 500 instructing clients to use /signup instead.
+    security:
+      - bearerAuth: []
+    responses:
+      '500':
+        description: Not implemented - use /signup
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: error
+                message:
+                  type: string
+                  example: 'This route is not defined. Please use /signup instead'

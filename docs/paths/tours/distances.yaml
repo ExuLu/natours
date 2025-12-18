@@ -1,0 +1,27 @@
+/tours/distances/{latlng}/unit/{unit}:
+  get:
+    tags: [Tours]
+    summary: Get distances from point
+    description: Calculates distance from the provided point to all tours (secret tours excluded). Distances are returned in miles when unit=mi, otherwise kilometers.
+    parameters:
+      - in: path
+        name: latlng
+        required: true
+        schema:
+          type: string
+          example: '34.111745,-118.113491'
+        description: Latitude and longitude in the format lat,lng.
+      - in: path
+        name: unit
+        required: true
+        schema:
+          type: string
+          enum: [mi, km]
+        description: Unit for distance calculation.
+    responses:
+      '200':
+        description: Distances calculated
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/TourDistancesResponse'

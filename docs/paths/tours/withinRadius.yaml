@@ -1,0 +1,34 @@
+/tours/tours-within/{distance}/center/{latlng}/unit/{unit}:
+  get:
+    tags: [Tours]
+    summary: Get tours within radius
+    description: Returns tours whose startLocation is within the specified radius from the given point. Secret tours are excluded by middleware.
+    parameters:
+      - in: path
+        name: distance
+        required: true
+        schema:
+          type: number
+          example: 233
+        description: Radius value in the provided unit.
+      - in: path
+        name: latlng
+        required: true
+        schema:
+          type: string
+          example: '34.111745,-118.113491'
+        description: Latitude and longitude in the format lat,lng.
+      - in: path
+        name: unit
+        required: true
+        schema:
+          type: string
+          enum: [mi, km]
+        description: Unit for distance measurement (miles or kilometers).
+    responses:
+      '200':
+        description: Tours within radius
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/ToursResponse'

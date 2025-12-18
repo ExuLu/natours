@@ -1,0 +1,433 @@
+Tour:
+  type: object
+  description: Tour resource returned by GET endpoints (guides populated by query middleware)
+  properties:
+    _id:
+      type: string
+      example: '5c88fa8cf4afda39709c2955'
+      readOnly: true
+    id:
+      type: string
+      description: Virtual getter (string version of _id)
+      example: '5c88fa8cf4afda39709c2955'
+      readOnly: true
+    name:
+      type: string
+      minLength: 10
+      maxLength: 40
+      example: 'The Sea Explorer'
+    slug:
+      type: string
+      example: 'the-sea-explorer'
+      readOnly: true
+    duration:
+      type: number
+      description: Duration in days
+      example: 7
+    durationWeeks:
+      type: number
+      description: Virtual field (duration / 7)
+      example: 1
+      readOnly: true
+    maxGroupSize:
+      type: number
+      example: 15
+    difficulty:
+      type: string
+      enum: [easy, medium, difficult]
+      example: medium
+    ratingsAverage:
+      type: number
+      default: 4.5
+      minimum: 1
+      maximum: 5
+      description: Rounded to 1 decimal (setter)
+      example: 4.8
+    ratingsQuantity:
+      type: integer
+      default: 0
+      example: 6
+    price:
+      type: number
+      example: 497
+    priceDiscount:
+      type: number
+      nullable: true
+      description: Must be less than price
+      example: 50
+    summary:
+      type: string
+      example: 'Exploring the jaw-dropping US east coast by foot and by boat'
+    description:
+      type: string
+      nullable: true
+      example: 'Consectetur adipisicing elit...'
+    imageCover:
+      type: string
+      example: 'tour-2-cover.jpg'
+    images:
+      type: array
+      items:
+        type: string
+      example: ['tour-2-1.jpg', 'tour-2-2.jpg', 'tour-2-3.jpg']
+    startDates:
+      type: array
+      items:
+        type: string
+        format: date-time
+      example:
+        - '2021-06-19T09:00:00.000Z'
+        - '2021-07-20T09:00:00.000Z'
+        - '2021-08-18T09:00:00.000Z'
+    secretTour:
+      type: boolean
+      description: Hidden from query results by default middleware
+      example: false
+    startLocation:
+      $ref: './Tour.yaml#/GeoPoint'
+    locations:
+      type: array
+      items:
+        $ref: './Tour.yaml#/TourLocation'
+    guides:
+      type: array
+      description: Populated guides on GET/UPDATE queries; raw ObjectIds on creation.
+      items:
+        $ref: './User.yaml#/UserPublic'
+    __v:
+      type: integer
+      example: 0
+      readOnly: true
+
+TourWithReviews:
+  allOf:
+    - $ref: './Tour.yaml#/Tour'
+    - type: object
+      description: Tour resource with populated reviews (GET /:id)
+      properties:
+        reviews:
+          type: array
+          items:
+            $ref: './Tour.yaml#/ReviewPopulated'
+
+TourWrite:
+  type: object
+  description: Writable attributes accepted in POST/PATCH payloads
+  properties:
+    name:
+      type: string
+      minLength: 10
+      maxLength: 40
+      example: 'The Sea Explorer'
+    duration:
+      type: number
+      example: 7
+    maxGroupSize:
+      type: number
+      example: 15
+    difficulty:
+      type: string
+      enum: [easy, medium, difficult]
+      example: medium
+    price:
+      type: number
+      example: 497
+    priceDiscount:
+      type: number
+      nullable: true
+      description: Must be below price
+      example: 50
+    summary:
+      type: string
+      example: 'Exploring the jaw-dropping US east coast by foot and by boat'
+    description:
+      type: string
+      nullable: true
+      example: 'Consectetur adipisicing elit...'
+    imageCover:
+      type: string
+      example: 'tour-2-cover.jpg'
+    images:
+      type: array
+      items:
+        type: string
+      example: ['tour-2-1.jpg', 'tour-2-2.jpg', 'tour-2-3.jpg']
+    startDates:
+      type: array
+      items:
+        type: string
+        format: date-time
+      example:
+        - '2021-06-19T09:00:00.000Z'
+        - '2021-07-20T09:00:00.000Z'
+        - '2021-08-18T09:00:00.000Z'
+    secretTour:
+      type: boolean
+      default: false
+    startLocation:
+      $ref: './Tour.yaml#/GeoPoint'
+    locations:
+      type: array
+      items:
+        $ref: './Tour.yaml#/TourLocation'
+    guides:
+      type: array
+      description: Array of User ObjectIds
+      items:
+        type: string
+      example: ['5c8a22c62f8fb814b56fa18b', '5c8a1f4e2f8fb814b56fa185']
+
+TourCreateRequest:
+  allOf:
+    - $ref: './Tour.yaml#/TourWrite'
+    - type: object
+      description: Payload to create a tour
+      required:
+        - name
+        - duration
+        - maxGroupSize
+        - difficulty
+        - price
+        - summary
+        - imageCover
+
+TourUpdateRequest:
+  allOf:
+    - $ref: './Tour.yaml#/TourWrite'
+    - type: object
+      description: Payload to update a tour (PATCH). All fields are optional.
+
+TourResponse:
+  type: object
+  description: Standard single-tour envelope used by GET/:id, POST and PATCH
+  properties:
+    status:
+      type: string
+      example: success
+    data:
+      type: object
+      properties:
+        data:
+          $ref: './Tour.yaml#/Tour'
+
+TourWithReviewsResponse:
+  type: object
+  description: Envelope returned by GET /tours/:id with reviews populated
+  properties:
+    status:
+      type: string
+      example: success
+    data:
+      type: object
+      properties:
+        data:
+          $ref: './Tour.yaml#/TourWithReviews'
+
+ToursResponse:
+  type: object
+  description: Envelope returned by list endpoints (including /top-5-best and /tours-within)
+  properties:
+    status:
+      type: string
+      example: success
+    results:
+      type: integer
+      example: 3
+    data:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: './Tour.yaml#/Tour'
+
+TourDeleteResponse:
+  type: object
+  description: Response for DELETE /tours/:id
+  properties:
+    status:
+      type: string
+      example: success
+    data:
+      nullable: true
+      example: null
+
+TourDistancesItem:
+  type: object
+  description: Result item for GET /tours/distances
+  properties:
+    _id:
+      type: string
+      description: Tour id
+      example: '5c88fa8cf4afda39709c2955'
+    name:
+      type: string
+      example: 'The Sea Explorer'
+    distance:
+      type: number
+      description: Distance from provided point (miles when unit=mi, otherwise kilometers)
+      example: 34.7
+
+TourDistancesResponse:
+  type: object
+  description: Envelope returned by GET /tours/distances/:latlng/unit/:unit
+  properties:
+    status:
+      type: string
+      example: success
+    result:
+      type: integer
+      example: 2
+    data:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: './Tour.yaml#/TourDistancesItem'
+
+TourStatsItem:
+  type: object
+  description: Aggregated stats grouped by difficulty (GET /tour-stats)
+  properties:
+    _id:
+      type: string
+      description: Difficulty bucket
+      example: easy
+    numTours:
+      type: integer
+      example: 3
+    numRatings:
+      type: integer
+      example: 37
+    avgRating:
+      type: number
+      example: 4.8
+    avgPrice:
+      type: number
+      example: 497.33
+    minPrice:
+      type: number
+      example: 297
+    maxPrice:
+      type: number
+      example: 997
+
+TourStatsResponse:
+  type: object
+  description: Envelope returned by GET /tours/tour-stats
+  properties:
+    status:
+      type: string
+      example: success
+    data:
+      type: object
+      properties:
+        stats:
+          type: array
+          items:
+            $ref: './Tour.yaml#/TourStatsItem'
+
+TourPlanMonth:
+  type: object
+  description: Aggregated plan item returned by GET /tours/monthly-plan/:year
+  properties:
+    month:
+      type: integer
+      minimum: 1
+      maximum: 12
+      example: 7
+    numTours:
+      type: integer
+      example: 2
+    tours:
+      type: array
+      items:
+        type: string
+      example: ['The Sea Explorer', 'The Park Camper']
+
+TourMonthlyPlanResponse:
+  type: object
+  description: Envelope returned by GET /tours/monthly-plan/:year
+  properties:
+    status:
+      type: string
+      example: success
+    data:
+      type: object
+      properties:
+        plan:
+          type: array
+          items:
+            $ref: './Tour.yaml#/TourPlanMonth'
+
+GeoPoint:
+  type: object
+  properties:
+    type:
+      type: string
+      enum: [Point]
+      default: Point
+      example: Point
+    coordinates:
+      type: array
+      description: GeoJSON order is [lng, lat]
+      items:
+        type: number
+      minItems: 2
+      maxItems: 2
+      example: [-80.185942, 25.774772]
+    address:
+      type: string
+      nullable: true
+      example: '301 Biscayne Blvd, Miami, FL 33132, USA'
+    description:
+      type: string
+      nullable: true
+      example: 'Miami, USA'
+
+TourLocation:
+  allOf:
+    - $ref: './Tour.yaml#/GeoPoint'
+    - type: object
+      properties:
+        _id:
+          type: string
+          example: '5c88fa8cf4afda39709c2959'
+          readOnly: true
+        day:
+          type: integer
+          example: 1
+
+ReviewPopulated:
+  type: object
+  properties:
+    _id:
+      type: string
+      example: '5c8a34ed14eb5c17645c9108'
+    id:
+      type: string
+      example: '5c8a34ed14eb5c17645c9108'
+      readOnly: true
+    review:
+      type: string
+      example: 'Pulvinar taciti etiam aenean...'
+    rating:
+      type: number
+      minimum: 1
+      maximum: 5
+      example: 5
+    createdAt:
+      type: string
+      format: date-time
+      example: '2025-12-16T17:01:59.314Z'
+    user:
+      $ref: './User.yaml#/UserPublic'
+    tour:
+      type: string
+      description: Tour ObjectId
+      example: '5c88fa8cf4afda39709c2955'
+    __v:
+      type: integer
+      example: 0
+      readOnly: true

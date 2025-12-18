@@ -1,0 +1,22 @@
+/tours/monthly-plan/{year}:
+  get:
+    tags: [Tours]
+    summary: Get monthly plan
+    description: Aggregated tour starts per month for the given year. Requires authentication as admin, lead-guide, or guide.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: year
+        required: true
+        schema:
+          type: integer
+          example: 2021
+        description: Four-digit year (YYYY).
+    responses:
+      '200':
+        description: Monthly plan
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/TourMonthlyPlanResponse'

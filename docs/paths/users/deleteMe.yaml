@@ -1,0 +1,14 @@
+/users/deleteMe:
+  delete:
+    tags: [Users]
+    summary: Deactivate current user
+    description: Soft-deletes the authenticated user by setting active=false.
+    security:
+      - bearerAuth: []
+    responses:
+      '204':
+        description: User deactivated
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/User.yaml#/UserDeleteResponse'

@@ -1,0 +1,65 @@
+/tours/{id}:
+  get:
+    tags: [Tours]
+    summary: Get tour by id
+    description: Returns a single tour with guides populated and reviews embedded.
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Tour id (MongoDB ObjectId).
+    responses:
+      '200':
+        description: Tour found
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/TourWithReviewsResponse'
+  patch:
+    tags: [Tours]
+    summary: Update a tour
+    description: Requires authentication as admin or lead-guide.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Tour id (MongoDB ObjectId).
+    requestBody:
+      required: true
+      content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/TourUpdateRequest'
+    responses:
+      '200':
+        description: Updated tour
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/TourResponse'
+  delete:
+    tags: [Tours]
+    summary: Delete a tour
+    description: Requires authentication as admin or lead-guide.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: Tour id (MongoDB ObjectId).
+    responses:
+      '204':
+        description: Tour deleted
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Tour.yaml#/TourDeleteResponse'

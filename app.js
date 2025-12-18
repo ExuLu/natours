@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const swaggerUi = require('swagger-ui-express');
 
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
@@ -55,6 +56,16 @@ app.use(
 
 // Serving static files
 app.use(express.static(`${__dirname}/public`));
+app.use('/docs', express.static(`${__dirname}/docs`));
+
+// API docs
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(null, {
+    swaggerOptions: { url: '/docs/openapi.yaml' },
+  }),
+);
 
 // Test middleware
 app.use((req, res, next) => {

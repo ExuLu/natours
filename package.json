@@ -18,9 +18,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "node --inspect server.js",
     "start": "node --watch server.js",
-    "start:prod": "NODE_ENV=production node --watch server.js"
+    "start:prod": "NODE_ENV=production node --watch server.js",
+    "validate:docs": "node -e \"const p=require('@apidevtools/swagger-parser');p.validate('docs/openapi.yaml').then(()=>{console.log('OpenAPI valid');}).catch(err=>{console.error(err);process.exit(1);});\""
   },
   "dependencies": {
+    "@apidevtools/swagger-parser": "^12.1.0",
     "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
@@ -34,8 +36,10 @@
     "morgan": "^1.10.1",
     "nodemailer": "^7.0.11",
     "slugify": "^1.6.6",
+    "swagger-ui-express": "^5.0.1",
     "validator": "^13.15.23",
-    "xss-clean": "^0.1.4"
+    "xss-clean": "^0.1.4",
+    "yaml": "^2.8.2"
   },
   "devDependencies": {
     "eslint": "^8.57.1",
