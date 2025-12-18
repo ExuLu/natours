@@ -34,12 +34,21 @@ exports.getDistances = catchAsync(async (req, res, next) => {
         distanceField: 'distance',
       },
     },
+    { $match: { secretTour: { $ne: true } } },
+    {
+      $project: {
+        distance: 1,
+        name: 1,
+      },
+    },
   ]);
-
-  console.log(distances);
 
   res.status(200).json({
     status: 'success',
+    result: distances.length,
+    data: {
+      data: distances,
+    },
   });
 });
 
