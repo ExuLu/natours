@@ -1,0 +1,18 @@
+/signup:
+  post:
+    tags: [Auth]
+    summary: Sign up
+    description: Creates a new user and returns a JWT token.
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserCreateRequest'
+    responses:
+      '201':
+        description: User created and signed in
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthTokenResponse'

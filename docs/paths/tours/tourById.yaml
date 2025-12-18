@@ -21,6 +21,8 @@
     tags: [Tours]
     summary: Update a tour
     description: Requires authentication as admin or lead-guide.
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id
@@ -45,6 +47,8 @@
     tags: [Tours]
     summary: Delete a tour
     description: Requires authentication as admin or lead-guide.
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: id

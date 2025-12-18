@@ -3,6 +3,8 @@
     tags: [Users]
     summary: Update current user profile
     description: Authenticated users can update their name and email via this route.
+    security:
+      - bearerAuth: []
     requestBody:
       required: true
       content:

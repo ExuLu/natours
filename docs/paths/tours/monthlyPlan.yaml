@@ -3,6 +3,8 @@
     tags: [Tours]
     summary: Get monthly plan
     description: Aggregated tour starts per month for the given year. Requires authentication as admin, lead-guide, or guide.
+    security:
+      - bearerAuth: []
     parameters:
       - in: path
         name: year
