@@ -93,7 +93,7 @@ Tour:
       type: array
       description: Populated guides on GET/UPDATE queries; raw ObjectIds on creation.
       items:
-        $ref: './Tour.yaml#/GuidePublic'
+        $ref: './User.yaml#/UserPublic'
     __v:
       type: integer
       example: 0
@@ -399,39 +399,6 @@ TourLocation:
           type: integer
           example: 1
 
-GuidePublic:
-  type: object
-  description: Populated user fields returned in tour queries
-  properties:
-    _id:
-      type: string
-      example: '5c8a22c62f8fb814b56fa18b'
-    role:
-      type: string
-      example: 'lead-guide'
-    name:
-      type: string
-      example: 'Miyah Myles'
-    email:
-      type: string
-      example: 'miyah@example.com'
-    photo:
-      type: string
-      example: 'user-12.jpg'
-
-UserPublic:
-  type: object
-  properties:
-    _id:
-      type: string
-      example: '5c8a1dfa2f8fb814b56fa181'
-    name:
-      type: string
-      example: 'Lourdes Browning'
-    photo:
-      type: string
-      example: 'user-2.jpg'
-
 ReviewPopulated:
   type: object
   properties:
@@ -455,7 +422,7 @@ ReviewPopulated:
       format: date-time
       example: '2025-12-16T17:01:59.314Z'
     user:
-      $ref: './Tour.yaml#/UserPublic'
+      $ref: './User.yaml#/UserPublic'
     tour:
       type: string
       description: Tour ObjectId
