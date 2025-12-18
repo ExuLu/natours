@@ -2,10 +2,133 @@ openapi: 3.0.3
 info:
   title: Natours API
   version: '1.0.0'
-paths: {}
+servers:
+  - url: /api/v1
+paths:
+  /tours:
+    $ref: './paths/tours/tours.yaml#/~1tours'
+  /tours/{id}:
+    $ref: './paths/tours/tourById.yaml#/~1tours~1{id}'
+  /tours/top-5-best:
+    $ref: './paths/tours/top5Cheap.yaml#/~1tours~1top-5-best'
+  /tours/tour-stats:
+    $ref: './paths/tours/stats.yaml#/~1tours~1tour-stats'
+  /tours/monthly-plan/{year}:
+    $ref: './paths/tours/monthlyPlan.yaml#/~1tours~1monthly-plan~1{year}'
+  /tours/tours-within/{distance}/center/{latlng}/unit/{unit}:
+    $ref: './paths/tours/withinRadius.yaml#/~1tours~1tours-within~1{distance}~1center~1{latlng}~1unit~1{unit}'
+  /tours/distances/{latlng}/unit/{unit}:
+    $ref: './paths/tours/distances.yaml#/~1tours~1distances~1{latlng}~1unit~1{unit}'
+  /tours/{tourId}/reviews:
+    $ref: './paths/toursReviews/reviewsOnTour.yaml#/~1tours~1{tourId}~1reviews'
+  /reviews:
+    $ref: './paths/reviews/reviews.yaml#/~1reviews'
+  /reviews/{id}:
+    $ref: './paths/reviews/reviewById.yaml#/~1reviews~1{id}'
+  /users:
+    $ref: './paths/users/users.yaml#/~1users'
+  /users/{id}:
+    $ref: './paths/users/userById.yaml#/~1users~1{id}'
+  /users/me:
+    $ref: './paths/users/me.yaml#/~1users~1me'
+  /users/updateMe:
+    $ref: './paths/users/updateMe.yaml#/~1users~1updateMe'
+  /users/deleteMe:
+    $ref: './paths/users/deleteMe.yaml#/~1users~1deleteMe'
+  /users/signup:
+    $ref: './paths/auth/signup.yaml#/~1users~1signup'
+  /users/login:
+    $ref: './paths/auth/login.yaml#/~1users~1login'
+  /users/forgotPassword:
+    $ref: './paths/auth/forgotPassword.yaml#/~1users~1forgotPassword'
+  /users/resetPassword/{token}:
+    $ref: './paths/auth/resetPassword.yaml#/~1users~1resetPassword~1{token}'
+  /users/updateMyPassword:
+    $ref: './paths/auth/updateMyPassword.yaml#/~1users~1updateMyPassword'
 components:
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  schemas:
+    Tour:
+      $ref: './components/schemas/Tour.yaml#/Tour'
+    TourWithReviews:
+      $ref: './components/schemas/Tour.yaml#/TourWithReviews'
+    TourWrite:
+      $ref: './components/schemas/Tour.yaml#/TourWrite'
+    TourCreateRequest:
+      $ref: './components/schemas/Tour.yaml#/TourCreateRequest'
+    TourUpdateRequest:
+      $ref: './components/schemas/Tour.yaml#/TourUpdateRequest'
+    TourResponse:
+      $ref: './components/schemas/Tour.yaml#/TourResponse'
+    TourWithReviewsResponse:
+      $ref: './components/schemas/Tour.yaml#/TourWithReviewsResponse'
+    ToursResponse:
+      $ref: './components/schemas/Tour.yaml#/ToursResponse'
+    TourDeleteResponse:
+      $ref: './components/schemas/Tour.yaml#/TourDeleteResponse'
+    TourDistancesItem:
+      $ref: './components/schemas/Tour.yaml#/TourDistancesItem'
+    TourDistancesResponse:
+      $ref: './components/schemas/Tour.yaml#/TourDistancesResponse'
+    TourStatsItem:
+      $ref: './components/schemas/Tour.yaml#/TourStatsItem'
+    TourStatsResponse:
+      $ref: './components/schemas/Tour.yaml#/TourStatsResponse'
+    TourPlanMonth:
+      $ref: './components/schemas/Tour.yaml#/TourPlanMonth'
+    TourMonthlyPlanResponse:
+      $ref: './components/schemas/Tour.yaml#/TourMonthlyPlanResponse'
+    GeoPoint:
+      $ref: './components/schemas/Tour.yaml#/GeoPoint'
+    TourLocation:
+      $ref: './components/schemas/Tour.yaml#/TourLocation'
+    ReviewPopulated:
+      $ref: './components/schemas/Tour.yaml#/ReviewPopulated'
+    User:
+      $ref: './components/schemas/User.yaml#/User'
+    UserPublic:
+      $ref: './components/schemas/User.yaml#/UserPublic'
+    UserCreateRequest:
+      $ref: './components/schemas/User.yaml#/UserCreateRequest'
+    UserLoginRequest:
+      $ref: './components/schemas/User.yaml#/UserLoginRequest'
+    UserForgotPasswordRequest:
+      $ref: './components/schemas/User.yaml#/UserForgotPasswordRequest'
+    UserResetPasswordRequest:
+      $ref: './components/schemas/User.yaml#/UserResetPasswordRequest'
+    UserUpdatePasswordRequest:
+      $ref: './components/schemas/User.yaml#/UserUpdatePasswordRequest'
+    UserUpdateMeRequest:
+      $ref: './components/schemas/User.yaml#/UserUpdateMeRequest'
+    UserUpdateRequest:
+      $ref: './components/schemas/User.yaml#/UserUpdateRequest'
+    UserResponse:
+      $ref: './components/schemas/User.yaml#/UserResponse'
+    UsersResponse:
+      $ref: './components/schemas/User.yaml#/UsersResponse'
+    UserSelfResponse:
+      $ref: './components/schemas/User.yaml#/UserSelfResponse'
+    UserDeleteResponse:
+      $ref: './components/schemas/User.yaml#/UserDeleteResponse'
+    AuthTokenResponse:
+      $ref: './components/schemas/User.yaml#/AuthTokenResponse'
+    UserForgotPasswordResponse:
+      $ref: './components/schemas/User.yaml#/UserForgotPasswordResponse'
+    Review:
+      $ref: './components/schemas/Review.yaml#/Review'
+    ReviewWrite:
+      $ref: './components/schemas/Review.yaml#/ReviewWrite'
+    ReviewCreateRequest:
+      $ref: './components/schemas/Review.yaml#/ReviewCreateRequest'
+    ReviewUpdateRequest:
+      $ref: './components/schemas/Review.yaml#/ReviewUpdateRequest'
+    ReviewResponse:
+      $ref: './components/schemas/Review.yaml#/ReviewResponse'
+    ReviewsResponse:
+      $ref: './components/schemas/Review.yaml#/ReviewsResponse'
+    ReviewDeleteResponse:
+      $ref: './components/schemas/Review.yaml#/ReviewDeleteResponse'
