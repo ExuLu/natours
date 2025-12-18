@@ -1,0 +1,47 @@
+/tours/{tourId}/reviews:
+  get:
+    tags: [Reviews]
+    summary: List reviews for a tour
+    description: Returns reviews for the given tour id.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: tourId
+        required: true
+        schema:
+          type: string
+        description: Tour id (MongoDB ObjectId).
+    responses:
+      '200':
+        description: Reviews list for tour
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewsResponse'
+  post:
+    tags: [Reviews]
+    summary: Create review for a tour
+    description: Authenticated users can create a review for the given tour.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: tourId
+        required: true
+        schema:
+          type: string
+        description: Tour id (MongoDB ObjectId).
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ReviewCreateRequest'
+    responses:
+      '201':
+        description: Review created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewResponse'

@@ -1,0 +1,33 @@
+/reviews:
+  get:
+    tags: [Reviews]
+    summary: List reviews
+    description: Returns all reviews. Supports filtering by tour when nested under /tours/{tourId}/reviews.
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: Reviews list
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewsResponse'
+  post:
+    tags: [Reviews]
+    summary: Create review
+    description: Authenticated users can create a review. When called via nested route, tourId is taken from the path.
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ReviewCreateRequest'
+    responses:
+      '201':
+        description: Review created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReviewResponse'
