@@ -1,4 +1,4 @@
-/signup:
+/users/signup:
   post:
     tags: [Auth]
     summary: Sign up
