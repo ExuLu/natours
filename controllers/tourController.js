@@ -10,9 +10,38 @@ exports.createTour = factory.createOne(Tour);
 exports.updateTour = factory.updateOne(Tour);
 exports.deleteTour = factory.deleteOneHandler(Tour);
 
-exports.getDistances = catchAsync(async(req, res, next) => {
-  
-})
+// /distances/:latlng/unit/:unit
+exports.getDistances = catchAsync(async (req, res, next) => {
+  const { latlng, unit } = req.params;
+  const [lat, lng] = latlng.split(',');
+
+  if (!lat || !lng) {
+    return next(
+      new AppError(
+        'Please provide latitude and longitude in the format lat,lng',
+        400,
+      ),
+    );
+  }
+
+  const distances = await Tour.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: 'Point',
+          coordinates: [Number(lng), Number(lat)],
+        },
+        distanceField: 'distance',
+      },
+    },
+  ]);
+
+  console.log(distances);
+
+  res.status(200).json({
+    status: 'success',
+  });
+});
 
 exports.getToursWithin = catchAsync(async (req, res, next) => {
   const { distance, latlng, unit } = req.params;

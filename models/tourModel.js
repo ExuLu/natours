@@ -144,6 +144,10 @@ tourSchema.post(/^find/, function (docs, next) {
 });
 
 tourSchema.pre('aggregate', function (next) {
+  if (this.pipeline().length && this.pipeline()[0].$geoNear) {
+    return next();
+  }
+
   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
 
   next();
