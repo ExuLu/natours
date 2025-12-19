@@ -9,7 +9,7 @@ block content
                     .card__header
                         .card__picture
                             .card__picture-overlay &nbsp;
-                            img.card__picture-img(src=`img/tours/${tour.imageCover}` alt='Tour 1')
+                            img.card__picture-img(src=`img/tours/${tour.imageCover}` alt=`${tour.name}`)
                         h3.heading-tertirary
                             span= tour.name
                     .card__details
@@ -22,11 +22,7 @@ block content
                         .card__data
                             svg.card__icon
                                 use(xlink:href='img/icons.svg#icon-calendar')
-                            - const firstDate = new Date(tour.startDates[0])
-                            - const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                            - const month = months[firstDate.getMonth()]
-                            - const date = `${month} ${firstDate.getFullYear()}`;
-                            span= date
+                            span= tour.startDates[0].toLocaleString('en-us', {month: 'long', year: 'numeric'})
                         .card__data
                             svg.card__icon
                                 use(xlink:href='img/icons.svg#icon-flag')
