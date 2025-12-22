@@ -3,7 +3,9 @@ include _reviewCard
 include _overviewBox
 
 block append head
-  //- script(src='/js/mapbox.js')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.css' integrity='sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=' crossorigin='')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.3/leaflet.js' integrity='sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=' crossorigin='')
+  script(src='/js/leaflet.js' defer)
 
 block content 
   section.section-header
