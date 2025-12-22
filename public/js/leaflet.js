@@ -4,7 +4,7 @@ const locations = JSON.parse(document.getElementById('map').dataset.locations);
 
 const map = L.map('map', { zoomControl: false });
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
   attribution:
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   crossOrigin: '',

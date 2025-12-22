@@ -26,40 +26,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/docs', express.static(path.join(__dirname, 'docs')));
 
 // Set security HTTP headers
-const scriptSrcUrls = ['https://cdnjs.cloudflare.com', 'https://unpkg.com'];
+const scriptConnectUrl = 'https://cdnjs.cloudflare.com';
 const styleSrcUrls = [
   'https://cdnjs.cloudflare.com',
-  'https://unpkg.com',
   'https://fonts.googleapis.com',
 ];
-const connectSrcUrls = [
-  'https://unpkg.com',
-  'https://tile.openstreetmap.org',
-  'https://cdnjs.cloudflare.com',
-];
-const fontSrcUrls = ['https://fonts.gstatic.com'];
+const imgUrl = 'https://*.tile.openstreetmap.fr';
 
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", ...scriptSrcUrls],
-      connectSrc: ["'self'", ...connectSrcUrls],
-      scriptSrcElem: ["'self'", ...scriptSrcUrls],
-      styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-      styleSrcElem: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
-      imgSrc: [
-        "'self'",
-        'data:',
-        'blob:',
-        'https://tile.openstreetmap.org',
-        'https://*.tile.openstreetmap.org',
-        'https://cdnjs.cloudflare.com',
-        'https://unpkg.com',
-      ],
-      fontSrc: ["'self'", ...fontSrcUrls],
-      workerSrc: ["'self'", 'blob:'],
-      objectSrc: ["'none'"],
+      scriptSrc: ["'self'", scriptConnectUrl],
+      connectSrc: ["'self'", scriptConnectUrl],
+      styleSrc: ["'self'", ...styleSrcUrls],
+      imgSrc: ["'self'", imgUrl],
     },
   }),
 );
