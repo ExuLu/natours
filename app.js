@@ -26,18 +26,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/docs', express.static(path.join(__dirname, 'docs')));
 
 // Set security HTTP headers
-const scriptConnectUrl = 'https://cdnjs.cloudflare.com';
-const styleSrcUrls = [
-  'https://cdnjs.cloudflare.com',
-  'https://fonts.googleapis.com',
-];
+const cdnCloudFlareUrl = 'https://cdnjs.cloudflare.com';
+const cdnJsdelivrUrl = 'https://cdn.jsdelivr.net';
+const scriptUrls = [cdnCloudFlareUrl, cdnJsdelivrUrl];
+const styleSrcUrls = [cdnCloudFlareUrl, 'https://fonts.googleapis.com'];
 const imgUrl = 'https://*.tile.openstreetmap.fr';
+const connectUrls = [cdnCloudFlareUrl, cdnJsdelivrUrl];
 
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
-      scriptSrc: ["'self'", scriptConnectUrl],
-      connectSrc: ["'self'", scriptConnectUrl],
+      scriptSrc: ["'self'", ...scriptUrls],
+      connectSrc: ["'self'", ...connectUrls],
       styleSrc: ["'self'", ...styleSrcUrls],
       imgSrc: ["'self'", imgUrl],
     },
