@@ -552,11 +552,7 @@ body {
 }
 
 .marker {
-  background-image: url('../img/pin.png');
-  background-size: cover;
-  width: 32px;
-  height: 40px;
-  cursor: pointer;
+  box-shadow: 0 1.5rem 3.5rem rgba(0, 0, 0, 0.15);
 }
 
 .leaflet-popup-content {

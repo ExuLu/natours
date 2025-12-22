@@ -10,12 +10,18 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   crossOrigin: '',
 }).addTo(map);
 
+const markerIcon = L.icon({
+  iconUrl: '../img/pin.png',
+  iconSize: [32, 40],
+  className: 'marker',
+});
+
 const points = [];
 locations.forEach((loc) => {
   const [lng, lat] = loc.coordinates;
 
   points.push([lat, lng]);
-  L.marker([lat, lng])
+  L.marker([lat, lng], { icon: markerIcon })
     .addTo(map)
     .bindPopup(`<p>Day ${loc.day}: ${loc.description}</p>`, {
       autoClose: false,
