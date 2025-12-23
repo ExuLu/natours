@@ -1,6 +1,6 @@
+import axios from 'axios';
 /* eslint-disable */
-
-const login = async (email, password) => {
+export const login = async (email, password) => {
   try {
     const res = await axios({
       method: 'POST',
@@ -16,14 +16,8 @@ const login = async (email, password) => {
       location.assign('/');
     }
   } catch (err) {
-    alert(err.response.data.message);
+    const message =
+      err.response?.data?.message || 'Something went wrong. Please try again.';
+    alert(message);
   }
 };
-
-document.querySelector('.form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-
-  login(email, password);
-});

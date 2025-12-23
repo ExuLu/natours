@@ -32,7 +32,7 @@ const cdnJsdelivrUrl = 'https://cdn.jsdelivr.net';
 const scriptUrls = [cdnCloudFlareUrl, cdnJsdelivrUrl];
 const styleSrcUrls = [cdnCloudFlareUrl, 'https://fonts.googleapis.com'];
 const imgUrl = 'https://*.tile.openstreetmap.fr';
-const connectUrls = [cdnCloudFlareUrl, cdnJsdelivrUrl];
+const connectUrls = [cdnCloudFlareUrl, cdnJsdelivrUrl, 'ws://localhost:*/'];
 
 app.use(
   helmet.contentSecurityPolicy({
