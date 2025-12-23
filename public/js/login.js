@@ -11,9 +11,12 @@ const login = async (email, password) => {
       },
     });
 
-    console.log(res);
+    if (res.data.status === 'success') {
+      alert('Logged in successfully!');
+      location.assign('/');
+    }
   } catch (err) {
-    console.log(err.response.data);
+    alert(err.response.data.message);
   }
 };
 
