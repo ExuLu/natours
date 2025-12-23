@@ -19,22 +19,29 @@
     "debug": "node --inspect server.js",
     "start": "node --watch server.js",
     "start:prod": "NODE_ENV=production node --watch server.js",
-    "validate:docs": "node -e \"const p=require('@apidevtools/swagger-parser');p.validate('docs/openapi.yaml').then(()=>{console.log('OpenAPI valid');}).catch(err=>{console.error(err);process.exit(1);});\""
+    "validate:docs": "node -e \"const p=require('@apidevtools/swagger-parser');p.validate('docs/openapi.yaml').then(()=>{console.log('OpenAPI valid');}).catch(err=>{console.error(err);process.exit(1);});\"",
+    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js --public-url /js",
+    "build:js": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js --public-url /js"
   },
   "dependencies": {
     "@apidevtools/swagger-parser": "^12.1.0",
+    "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^8.2.1",
     "helmet": "^8.1.0",
     "hpp": "^0.2.3",
+    "i": "^0.3.7",
     "jsonwebtoken": "^9.0.2",
+    "leaflet": "^1.9.4",
     "mongodb": "^7.0.0",
     "mongoose": "^5.13.23",
     "morgan": "^1.10.1",
     "nodemailer": "^7.0.11",
+    "npm": "^11.7.0",
     "pug": "^3.0.3",
     "slugify": "^1.6.6",
     "swagger-ui-express": "^5.0.1",
@@ -42,6 +49,7 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
+    "@babel/polyfill": "^7.12.1",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^10.1.8",
@@ -51,6 +59,7 @@
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
     "ndb": "^1.1.5",
+    "parcel-bundler": "^1.12.5",
     "prettier": "^3.6.2"
   }
 }
