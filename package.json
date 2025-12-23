@@ -36,6 +36,7 @@
     "hpp": "^0.2.3",
     "i": "^0.3.7",
     "jsonwebtoken": "^9.0.2",
+    "leaflet": "^1.9.4",
     "mongodb": "^7.0.0",
     "mongoose": "^5.13.23",
     "morgan": "^1.10.1",
@@ -48,6 +49,7 @@
     "xss-clean": "^0.1.4"
   },
   "devDependencies": {
+    "@babel/polyfill": "^7.12.1",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^10.1.8",
