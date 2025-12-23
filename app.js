@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const swaggerUi = require('swagger-ui-express');
+const cookieParser = require('cookie-parser');
 
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
@@ -58,6 +59,9 @@ app.use('/api', limiter);
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
+
+// Cookie parser, reading cookie data
+app.use(cookieParser());
 
 // Data sanitization against NoSQL data injection
 app.use(mongoSanitize());

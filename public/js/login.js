@@ -1,7 +1,5 @@
 /* eslint-disable */
 
-// const { default: axios } = require("axios");
-
 const login = async (email, password) => {
   try {
     const res = await axios({
