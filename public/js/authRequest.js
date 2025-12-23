@@ -44,3 +44,7 @@ export const signUp = async (name, email, password, confirmPassword) => {
     confirmPassword,
   });
 };
+
+export const logout = async () => {
+  await authRequest('GET', 'logout', 'Logout successfully!');
+};
