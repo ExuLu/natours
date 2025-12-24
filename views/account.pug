@@ -3,6 +3,9 @@ include _accountNavLink
 include _passwordInput
 include _userDataValueInput
 
+block append head
+  script(src='/js/bundle.js' defer)
+
 block content
   main.main   
     .user-view
@@ -48,5 +51,5 @@ block content
             +passwordInput('password-confirm', 'Confirm password', 'ma-bt-lg')
 
             .form__group.right 
-              button.btn.btn--small.btn--green Save password
+              button.btn.btn--small.btn--green.btn--save-password Save password
 

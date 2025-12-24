@@ -7,10 +7,10 @@ const authRequest = async (method, route, data) => {
   try {
     const resOptions = {
       method,
-      url: `http://localhost:3000/api/v1/users/${route}`,
+      url: `/api/v1/users/${route}`,
     };
 
-    if (data) {
+    if (data && method !== 'GET') {
       resOptions.data = data;
     }
 
