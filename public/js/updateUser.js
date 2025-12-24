@@ -10,9 +10,9 @@ export const updateUserData = async (name, email) => {
     });
 
     if (res.data.status === 'success') {
-      location.reload(true);
+      showAlert('success', 'Data updated successfully!');
     }
   } catch (err) {
-    showAlert('error', err.message);
+    showAlert('error', err.response.data.message);
   }
 };
