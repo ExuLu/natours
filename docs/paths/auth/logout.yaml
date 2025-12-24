@@ -1,0 +1,16 @@
+/users/logout:
+  get:
+    tags: [Auth]
+    summary: Log out
+    description: Clears the JWT cookie by setting it to a short-lived logged-out value.
+    responses:
+      '200':
+        description: Logged out
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: success

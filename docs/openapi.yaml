@@ -39,6 +39,8 @@ paths:
     $ref: './paths/auth/signup.yaml#/~1users~1signup'
   /users/login:
     $ref: './paths/auth/login.yaml#/~1users~1login'
+  /users/logout:
+    $ref: './paths/auth/logout.yaml#/~1users~1logout'
   /users/forgotPassword:
     $ref: './paths/auth/forgotPassword.yaml#/~1users~1forgotPassword'
   /users/resetPassword/{token}:
