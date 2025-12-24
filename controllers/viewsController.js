@@ -39,7 +39,9 @@ exports.getSignupForm = (req, res) => {
   });
 };
 
-exports.getUser = (req, res) => {
+exports.getAccount = (req, res) => {
+  console.log(req.user);
+
   res.status(200).render('account', {
     title: 'My account',
   });
