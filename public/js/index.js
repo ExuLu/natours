@@ -1,13 +1,14 @@
 import '@babel/polyfill';
 import { login, signUp, logout } from './authRequest';
 import { displayMap } from './leaflet';
-import { updateUserData } from './updateUser';
+import { updateUserData, updateUserPassword } from './updateUser';
 
 const map = document.getElementById('map');
 const loginForm = document.getElementById('loginForm');
 const signUpForm = document.getElementById('signUpForm');
 const logoutButton = document.querySelector('.nav__el--logout');
 const updateUserDataForm = document.querySelector('.form-user-data');
+const updateUserPasswordForm = document.querySelector('.form-user-settings');
 
 if (map) {
   const locations = JSON.parse(map.dataset.locations);
@@ -44,6 +45,18 @@ if (updateUserDataForm) {
     const email = document.getElementById('email').value;
 
     updateUserData(name, email);
+  });
+}
+
+if (updateUserPasswordForm) {
+  updateUserPasswordForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const currentPassword = document.getElementById('password-current').value;
+    const newPassword = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password-confirm').value;
+
+    updateUserPassword(currentPassword, newPassword, passwordConfirm);
   });
 }
 
