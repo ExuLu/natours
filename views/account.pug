@@ -3,6 +3,9 @@ include _accountNavLink
 include _passwordInput
 include _userDataValueInput
 
+block append head
+  script(src='/js/bundle.js' defer)
+
 block content
   main.main   
     .user-view
