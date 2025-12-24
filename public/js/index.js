@@ -1,10 +1,11 @@
 import '@babel/polyfill';
-import { login, signUp } from './authRequest';
+import { login, signUp, logout } from './authRequest';
 import { displayMap } from './leaflet';
 
 const map = document.getElementById('map');
 const loginForm = document.getElementById('loginForm');
 const signUpForm = document.getElementById('signUpForm');
+const logoutButton = document.querySelector('.nav__el--logout');
 
 if (map) {
   const locations = JSON.parse(map.dataset.locations);
@@ -30,5 +31,11 @@ if (signUpForm) {
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
     signUp(name, email, password, confirmPassword);
+  });
+}
+
+if (logoutButton) {
+  logoutButton.addEventListener('click', () => {
+    logout();
   });
 }
