@@ -8,14 +8,13 @@ block content
     .user-view
       nav.user-view__menu
 
-        if user.role !== 'admin'
-          ul.side-nav
-            +accountNavLink('settings', 'Settings', true)
-            +accountNavLink('briefcase', 'My bookings', false)
-            +accountNavLink('star', 'My reviews', false)
-            +accountNavLink('card', 'Billing', false)
+        ul.side-nav
+          +accountNavLink('settings', 'Settings', true)
+          +accountNavLink('briefcase', 'My bookings', false)
+          +accountNavLink('star', 'My reviews', false)
+          +accountNavLink('card', 'Billing', false)
 
-        else
+        if user.role === 'admin'
           .admin-nav
             h5.admin-nav__heading Admin 
             ul.side-nav
