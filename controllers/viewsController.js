@@ -38,3 +38,15 @@ exports.getSignupForm = (req, res) => {
     title: 'Create your account',
   });
 };
+
+exports.getAccount = (req, res) => {
+  if (req.user === null) {
+    return res.status(200).render('login', {
+      title: 'Log into your account',
+    });
+  }
+
+  res.status(200).render('account', {
+    title: 'My account',
+  });
+};

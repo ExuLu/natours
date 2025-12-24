@@ -1,0 +1,4 @@
+mixin userDataValueInput(inputId, label, type, value, containerClass)
+  .form__group(class=containerClass)
+    label.form__label(for=inputId)= label 
+    input.form__input(id=inputId type=type value=value required)

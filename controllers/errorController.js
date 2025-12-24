@@ -67,6 +67,7 @@ const sendErrorProd = (err, req, res) => {
   // RENDER precise error
   if (err.isOperational) {
     return res.status(err.statusCode).render('error', {
+      title: 'Something went wrong',
       msg: err.message,
     });
   }
@@ -74,6 +75,7 @@ const sendErrorProd = (err, req, res) => {
   // RENDER generic error
   console.error(`ERROR 💥 ${err}`);
   return res.status(500).render('error', {
+    title: 'Something went wrong',
     msg: 'Please try again later.',
   });
 };
