@@ -49,14 +49,18 @@ if (updateUserDataForm) {
 }
 
 if (updateUserPasswordForm) {
-  updateUserPasswordForm.addEventListener('submit', (e) => {
+  updateUserPasswordForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const currentPassword = document.getElementById('password-current').value;
     const newPassword = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('password-confirm').value;
 
-    updateUserPassword(currentPassword, newPassword, passwordConfirm);
+    await updateUserPassword(currentPassword, newPassword, passwordConfirm);
+
+    document.getElementById('password-current').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('password-confirm').value = '';
   });
 }
 
