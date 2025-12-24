@@ -8,30 +8,32 @@ block content
     .user-view
       nav.user-view__menu
 
-        ul.side-nav
-          +accountNavLink('settings', 'Settings', true)
-          +accountNavLink('briefcase', 'My bookings', false)
-          +accountNavLink('star', 'My reviews', false)
-          +accountNavLink('card', 'Billing', false)
-
-        .admin-nav
-          h5.admin-nav__heading Admin 
+        if user.role !== 'admin'
           ul.side-nav
-            +accountNavLink('map', 'Manage tours', false)
-            +accountNavLink('users', 'Manage users', false)
-            +accountNavLink('star', 'Manage reviews', false)
-            +accountNavLink('briefcase', 'Manage bookings', false)
+            +accountNavLink('settings', 'Settings', true)
+            +accountNavLink('briefcase', 'My bookings', false)
+            +accountNavLink('star', 'My reviews', false)
+            +accountNavLink('card', 'Billing', false)
+
+        else
+          .admin-nav
+            h5.admin-nav__heading Admin 
+            ul.side-nav
+              +accountNavLink('map', 'Manage tours', false)
+              +accountNavLink('users', 'Manage users', false)
+              +accountNavLink('star', 'Manage reviews', false)
+              +accountNavLink('briefcase', 'Manage bookings', false)
       
       .user-view__content
         .user-view__form-container
           h2.heading-secondary.ma-bt-md Your account settings
           form.form.form-user-data
 
-            +userDataValueInput('name', 'Name', 'text', 'Jonas Schemdtmann', '')
-            +userDataValueInput('email', 'Email address', 'email', 'admin@natours.io', 'ma-bt-md')
+            +userDataValueInput('name', 'Name', 'text', user.name, '')
+            +userDataValueInput('email', 'Email address', 'email', user.email, 'ma-bt-md')
 
             .form__group.form__photo-upload
-              img.form__user-photo(src="img/user.jpg" alt="User photo")
+              img.form__user-photo(src=`img/users/${user.photo ? user.photo : 'default.jpg'}` alt=`Photo of ${user.name}`)
               a.btn-text(href="") Choose new photo
             .form__group.right  
               button.btn.btn--small.btn--green Save settings
