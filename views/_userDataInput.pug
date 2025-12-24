@@ -1,0 +1,4 @@
+mixin userDataInput(inputId, label, type, placeholder)
+  .form__group
+    label.form__label(for=inputId)= label
+    input.form__input(id=inputId type=type placeholder=placeholder required)
