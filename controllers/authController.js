@@ -71,6 +71,7 @@ exports.logout = (req, res) => {
 };
 
 exports.protect = catchAsync(async (req, res, next) => {
+  const isAPIReq = req.originalUrl.startsWith('/api');
   let token;
 
   if (
@@ -82,10 +83,15 @@ exports.protect = catchAsync(async (req, res, next) => {
     token = req.cookies.jwt;
   }
 
-  if (!token) {
+  if (!token && isAPIReq) {
     return next(
       new AppError('You are not logged in. Please login to get access', 401),
     );
+  }
+
+  if ((!token || token === 'loggedout') && !isAPIReq) {
+    req.user = null;
+    return next();
   }
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);

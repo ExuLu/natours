@@ -40,7 +40,11 @@ exports.getSignupForm = (req, res) => {
 };
 
 exports.getAccount = (req, res) => {
-  console.log(req.user);
+  if (req.user === null) {
+    return res.status(200).render('login', {
+      title: 'Log into your account',
+    });
+  }
 
   res.status(200).render('account', {
     title: 'My account',
