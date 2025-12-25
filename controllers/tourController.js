@@ -31,26 +31,26 @@ exports.uploadTourImages = upload.fields([
 
 exports.resizeTourImages = catchAsync(async (req, res, next) => {
   if (req.files.imageCover) {
-    const imageCoverFileName = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
+    req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
+
     await sharp(req.files.imageCover.at(0).buffer)
       .resize(2000, 1333)
       .toFormat('jpeg')
       .jpeg({ quality: 90 })
-      .toFile(`public/img/tours/${imageCoverFileName}`);
-    req.body.imageCover = imageCoverFileName;
+      .toFile(`public/img/tours/${req.body.imageCover}`);
   }
 
   if (req.files.images) {
     req.body.images = [];
     req.files.images.forEach(async (img, index) => {
-      const imageFileName = `tour-${req.params.id}-${Date.now()}-image-${index}.jpeg`;
-      req.body.images.push(imageFileName);
+      req.body.images[index] =
+        `tour-${req.params.id}-${Date.now()}-image-${index}.jpeg`;
 
       await sharp(req.files.images.at(index).buffer)
         .resize(2000, 1333)
         .toFormat('jpeg')
         .jpeg({ quality: 90 })
-        .toFile(`public/img/tours/${imageFileName}`);
+        .toFile(`public/img/tours/${req.body.images[index]}`);
     });
   }
 
