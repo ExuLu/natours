@@ -17,8 +17,8 @@ const updateUser = async (route, data, successMessage) => {
   }
 };
 
-export const updateUserData = async (name, email) => {
-  await updateUser('updateMe', { name, email }, 'Data updated successfully!');
+export const updateUserData = async (data) => {
+  await updateUser('updateMe', data, 'Data updated successfully!');
 };
 
 export const updateUserPassword = async (
