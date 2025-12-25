@@ -31,7 +31,7 @@ const cdnCloudFlareUrl = 'https://cdnjs.cloudflare.com';
 const cdnJsdelivrUrl = 'https://cdn.jsdelivr.net';
 const scriptUrls = [cdnCloudFlareUrl, cdnJsdelivrUrl];
 const styleSrcUrls = [cdnCloudFlareUrl, 'https://fonts.googleapis.com'];
-const imgUrl = 'https://*.tile.openstreetmap.fr';
+const imgUrl = ['https://*.tile.openstreetmap.fr', "'self'"];
 const connectUrls = [cdnCloudFlareUrl, cdnJsdelivrUrl, 'ws://localhost:*/'];
 
 app.use(
@@ -40,7 +40,7 @@ app.use(
       scriptSrc: ["'self'", ...scriptUrls],
       connectSrc: ["'self'", ...connectUrls],
       styleSrc: ["'self'", ...styleSrcUrls],
-      imgSrc: ["'self'", imgUrl],
+      imgSrc: imgUrl,
     },
   }),
 );
