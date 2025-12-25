@@ -1,4 +1,5 @@
 const multer = require('multer');
+const sharp = require('sharp');
 
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
@@ -71,8 +72,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
 exports.resizeUserPhoto = (req, res, next) => {
   if (!req.file) return next();
-
-  
 };
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
