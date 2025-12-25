@@ -42,16 +42,18 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
 
   if (req.files.images) {
     req.body.images = [];
-    req.files.images.forEach(async (img, index) => {
-      req.body.images[index] =
-        `tour-${req.params.id}-${Date.now()}-image-${index}.jpeg`;
+    await Promise.all(
+      req.files.images.map(async (img, index) => {
+        const fileName = `tour-${req.params.id}-${Date.now()}-image-${index + 1}.jpeg`;
+        await sharp(req.files.images.at(index).buffer)
+          .resize(2000, 1333)
+          .toFormat('jpeg')
+          .jpeg({ quality: 90 })
+          .toFile(`public/img/tours/${fileName}`);
 
-      await sharp(req.files.images.at(index).buffer)
-        .resize(2000, 1333)
-        .toFormat('jpeg')
-        .jpeg({ quality: 90 })
-        .toFile(`public/img/tours/${req.body.images[index]}`);
-    });
+        req.body.images.push(fileName);
+      }),
+    );
   }
 
   next();
