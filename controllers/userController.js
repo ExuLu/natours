@@ -6,15 +6,17 @@ const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
 
-const multerStorage = multer.diskStorage({
-  destination: (req, file, callback) => {
-    callback(null, 'public/img/users');
-  },
-  filename: (req, file, callback) => {
-    const extension = file.mimetype.split('/').at(1);
-    callback(null, `user-${req.user._id}-${Date.now()}.${extension}`);
-  },
-});
+// const multerStorage = multer.diskStorage({
+//   destination: (req, file, callback) => {
+//     callback(null, 'public/img/users');
+//   },
+//   filename: (req, file, callback) => {
+//     const extension = file.mimetype.split('/').at(1);
+//     callback(null, `user-${req.user._id}-${Date.now()}.${extension}`);
+//   },
+// });
+
+const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, callback) => {
   if (file.mimetype.startsWith('image')) {
@@ -72,6 +74,17 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
 exports.resizeUserPhoto = (req, res, next) => {
   if (!req.file) return next();
+
+  const fileName = `user-${req.user._id}-${Date.now()}.jpeg`;
+  req.file.filename = fileName;
+
+  sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/users/${fileName}`);
+
+  next();
 };
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
