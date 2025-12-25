@@ -21,6 +21,7 @@ const authRequest = async (method, route, data) => {
     const message =
       err.response?.data?.message || 'Something went wrong. Please try again.';
     showAlert('error', message);
+    return null;
   }
 };
 
@@ -47,10 +48,10 @@ export const signUp = async (name, email, password, confirmPassword) => {
     name,
     email,
     password,
-    confirmPassword,
+    passwordConfirm: confirmPassword,
   });
 
-  if (res.data.status === 'success') {
+  if (res?.data?.status === 'success') {
     alertRedirect('Signed up successfully!');
   }
 };
@@ -58,7 +59,7 @@ export const signUp = async (name, email, password, confirmPassword) => {
 export const logout = async () => {
   const res = await authRequest('GET', 'logout', 'Logout successfully!');
 
-  if (res.data.status === 'success') {
+  if (res?.data?.status === 'success') {
     location.reload(true);
   }
 };

@@ -32,7 +32,7 @@ if (signUpForm) {
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
+    const confirmPassword = document.getElementById('password-confirm').value;
     signUp(name, email, password, confirmPassword);
   });
 }
