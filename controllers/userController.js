@@ -1,7 +1,15 @@
+const multer = require('multer');
+
 const User = require('../models/userModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
+
+const upload = multer({
+  dest: 'public/img/users',
+});
+
+exports.uploadUserPhoto = upload.single('photo');
 
 const filterObj = (obj, ...allowedFields) =>
   Object.keys(obj).reduce((newObject, currentField) => {
@@ -12,6 +20,8 @@ const filterObj = (obj, ...allowedFields) =>
   }, {});
 
 exports.updateMe = catchAsync(async (req, res, next) => {
+  console.log(req.file);
+  console.log(req.body);
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError(
