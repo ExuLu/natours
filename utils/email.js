@@ -1,23 +1,46 @@
 const nodemailer = require('nodemailer');
+const pug = require('pug');
 
-const sendEmail = async (options) => {
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
+module.exports = class Email {
+  constructor(user, url) {
+    this.to = user.email;
+    this.firstName = user.name.split(' ').at(0);
+    this.url = url;
+    this.from = `Alena Sharai <${process.env.EMAIL_FROM}>`;
+  }
 
-  const mailOptions = {
-    from: 'Alena Sharai <exultantislupus@gmail.com',
-    to: options.email,
-    subject: options.subject,
-    text: options.message,
-  };
+  createTransport() {
+    if (process.env.NODE_ENV === 'production') {
+      // Sendgrid
+      return 1;
+    }
+    return nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+  }
 
-  await transporter.sendMail(mailOptions);
+  send(template, subject) {
+    const html = pug.renderFile(`${__dirname}/../views/emails/${template}.pug`);
+
+    const mailOptions = {
+      from: this.from,
+      to: this.to,
+      subject: subject,
+      text: options.message,
+      html,
+    };
+  }
+
+  sendWelcome() {
+    this.send('welcome', 'Welcome to the Natours Family!');
+  }
 };
 
-module.exports = sendEmail;
+const sendEmail = async (options) => {
+  await transporter.sendMail(mailOptions);
+};
