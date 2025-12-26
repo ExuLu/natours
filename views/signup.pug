@@ -2,19 +2,15 @@ extends base
 include _passwordInput
 include _userDataInput
 
-block append head 
-  script(src='/js/bundle.js' defer)
-
 block content
   main.main
     .login-form
       h2.heading-secondary.ma-bt-lg Create your account
-        form#signUpForm.form
-        
-          +userDataInput('name', 'Name', 'text', 'John Doe')
-          +userDataInput('email', 'Email address', 'email', 'you@example.com')
-          +passwordInput('password', 'Password', 'mat-bt-md')
-          +passwordInput('password-confirm', 'Confirm Password', 'mat-bt-md')
+      form#signUpForm.form
+        +userDataInput('name', 'Name', 'text', 'John Doe')
+        +userDataInput('email', 'Email address', 'email', 'you@example.com')
+        +passwordInput('password', 'Password', 'mat-bt-md')
+        +passwordInput('password-confirm', 'Confirm Password', 'mat-bt-md')
 
-          .form__group
-            button.btn.btn--green Sign Up
+        .form__group
+          button.btn.btn--green Sign Up
