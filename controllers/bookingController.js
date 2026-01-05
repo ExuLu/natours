@@ -2,7 +2,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const catchAsync = require('../utils/catchAsync');
 const Tour = require('../models/tourModel');
-const Booking = require('../models/bookingMode');
+const Booking = require('../models/bookingModel');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const { tourId } = req.params;
@@ -41,7 +41,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
 exports.createBookingCheckout = catchAsync(async (req, res, next) => {
   const { tour, user, price } = req.query;
-  console.log('create booking checkout');
 
   if (!tour || !user || !price) {
     return next();
