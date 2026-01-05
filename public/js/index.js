@@ -95,9 +95,11 @@ if (!window.__natoursInit) {
   }
 
   if (bookTourButton) {
-    bookTourButton.addEventListener('click', () => {
-      const tourId = bookTourButton.dataset.tourId;
-      bookTour(tourId);
+    bookTourButton.addEventListener('click', async (e) => {
+      e.target.textContent = 'Processing...';
+      const { tourId } = bookTourButton.dataset;
+      await bookTour(tourId);
+      e.target.textContent = 'Book tour now!';
     });
   }
 }

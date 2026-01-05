@@ -9,7 +9,7 @@ export const bookTour = async (tourId) => {
     });
 
     if (res.data.status === 'success') {
-      location.assign(res.data.session.url);
+      window.open(res.data.session.url);
     }
   } catch (err) {
     showAlert('error', err.response.data.message);
