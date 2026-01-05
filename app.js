@@ -33,7 +33,12 @@ const cdnJsdelivrUrl = 'https://cdn.jsdelivr.net';
 const scriptUrls = [cdnCloudFlareUrl, cdnJsdelivrUrl];
 const styleSrcUrls = [cdnCloudFlareUrl, 'https://fonts.googleapis.com'];
 const imgUrl = ['https://*.tile.openstreetmap.fr', "'self'"];
-const connectUrls = [cdnCloudFlareUrl, cdnJsdelivrUrl, 'ws://localhost:*/'];
+const connectUrls = [
+  cdnCloudFlareUrl,
+  cdnJsdelivrUrl,
+  'ws://localhost:*/',
+  'https://checkout.stripe.com',
+];
 
 app.use(
   helmet.contentSecurityPolicy({
