@@ -1,8 +1,6 @@
 node_modules
 config.env
 .cache
-public/js/bundle.css
-public/js/bundle.css.map
 public/js/*.png
 public/js/marker-shadow.d7be2ed1.png
 public/js/marker-shadow.fed7181e.png
