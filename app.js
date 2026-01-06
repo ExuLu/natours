@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const swaggerUi = require('swagger-ui-express');
+const compression = require('compression');
 const cookieParser = require('cookie-parser');
 
 const globalErrorHandler = require('./controllers/errorController');
@@ -97,6 +98,8 @@ app.use(
     swaggerOptions: { url: '/docs/openapi.yaml' },
   }),
 );
+
+app.use(compression());
 
 // Test middleware
 app.use((req, res, next) => {
