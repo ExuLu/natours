@@ -1,0 +1,33 @@
+/bookings:
+  get:
+    tags: [Bookings]
+    summary: List bookings
+    description: Admin/lead-guide only. Returns all bookings.
+    security:
+      - bearerAuth: []
+    responses:
+      '200':
+        description: Bookings list
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Booking.yaml#/BookingsResponse'
+  post:
+    tags: [Bookings]
+    summary: Create booking
+    description: Admin/lead-guide only. Creates a booking document.
+    security:
+      - bearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/Booking.yaml#/BookingCreateRequest'
+    responses:
+      '201':
+        description: Booking created
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Booking.yaml#/BookingResponse'

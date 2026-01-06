@@ -2,15 +2,27 @@
   patch:
     tags: [Users]
     summary: Update current user profile
-    description: Authenticated users can update their name and email via this route.
+    description: Authenticated users can update their name, email, and optionally upload a profile photo. Supports multipart form uploads.
     security:
       - bearerAuth: []
     requestBody:
       required: true
       content:
-          application/json:
-            schema:
-              $ref: '../../components/schemas/User.yaml#/UserUpdateMeRequest'
+        application/json:
+          schema:
+            $ref: '../../components/schemas/User.yaml#/UserUpdateMeRequest'
+        multipart/form-data:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+                format: email
+              photo:
+                type: string
+                format: binary
     responses:
       '200':
         description: User updated

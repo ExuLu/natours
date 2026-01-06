@@ -47,6 +47,12 @@ paths:
     $ref: './paths/auth/resetPassword.yaml#/~1users~1resetPassword~1{token}'
   /users/updateMyPassword:
     $ref: './paths/auth/updateMyPassword.yaml#/~1users~1updateMyPassword'
+  /bookings/checkout-session/{tourId}:
+    $ref: './paths/bookings/checkoutSession.yaml#/~1bookings~1checkout-session~1{tourId}'
+  /bookings:
+    $ref: './paths/bookings/bookings.yaml#/~1bookings'
+  /bookings/{id}:
+    $ref: './paths/bookings/bookingById.yaml#/~1bookings~1{id}'
 components:
   securitySchemes:
     bearerAuth:
