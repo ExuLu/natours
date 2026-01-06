@@ -1,0 +1,28 @@
+/bookings/checkout-session/{tourId}:
+  get:
+    tags: [Bookings]
+    summary: Create Stripe checkout session for a tour
+    description: Authenticated users can create a Stripe Checkout session to purchase a tour. Returns the session object from Stripe.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: tourId
+        required: true
+        schema:
+          type: string
+        description: MongoDB ID of the tour to book.
+    responses:
+      '200':
+        description: Stripe session created
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  example: success
+                session:
+                  type: object
+                  description: Stripe session payload

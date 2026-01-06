@@ -1,0 +1,69 @@
+Booking:
+  type: object
+  properties:
+    _id:
+      type: string
+      example: 5c88fa8cf4afda39709c2955
+    tour:
+      type: string
+      description: Tour id
+    user:
+      type: string
+      description: User id
+    price:
+      type: number
+      example: 497
+    createdAt:
+      type: string
+      format: date-time
+    paid:
+      type: boolean
+      example: true
+BookingCreateRequest:
+  type: object
+  required: [tour, user, price]
+  properties:
+    tour:
+      type: string
+    user:
+      type: string
+    price:
+      type: number
+BookingUpdateRequest:
+  type: object
+  properties:
+    tour:
+      type: string
+    user:
+      type: string
+    price:
+      type: number
+    paid:
+      type: boolean
+BookingResponse:
+  type: object
+  properties:
+    status:
+      type: string
+      example: success
+    data:
+      type: object
+      properties:
+        data:
+          $ref: '#/Booking'
+BookingsResponse:
+  type: object
+  properties:
+    status:
+      type: string
+      example: success
+    results:
+      type: integer
+      example: 1
+    data:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/Booking'

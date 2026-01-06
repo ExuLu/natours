@@ -1,0 +1,59 @@
+/bookings/{id}:
+  get:
+    tags: [Bookings]
+    summary: Get booking by id
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      '200':
+        description: Booking retrieved
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Booking.yaml#/BookingResponse'
+  patch:
+    tags: [Bookings]
+    summary: Update booking
+    description: Admin/lead-guide only.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schemas/Booking.yaml#/BookingUpdateRequest'
+    responses:
+      '200':
+        description: Booking updated
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/Booking.yaml#/BookingResponse'
+  delete:
+    tags: [Bookings]
+    summary: Delete booking
+    description: Admin/lead-guide only.
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+    responses:
+      '204':
+        description: Booking deleted
