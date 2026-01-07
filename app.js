@@ -9,6 +9,7 @@ const hpp = require('hpp');
 const swaggerUi = require('swagger-ui-express');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const globalErrorHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
@@ -26,6 +27,12 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // GLOBAL MIDDLEWARES
+
+// Implementing CORS
+app.use(cors());
+
+app.options('*', cors());
+
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/docs', express.static(path.join(__dirname, 'docs')));
