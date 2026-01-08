@@ -63,6 +63,7 @@ exports.webhookCheckout = (req, res, next) => {
   }
 
   // Log event type and id for diagnostics without dumping full object
+  console.log(`Event: ${event}`);
   console.log(`Stripe event received: ${event.type} (${event.id})`);
 
   if (event.type === 'checkout.session.complete') {
