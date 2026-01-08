@@ -3,6 +3,7 @@ import { login, signUp, logout } from './authRequest';
 import { displayMap } from './leaflet';
 import { updateUserData, updateUserPassword } from './updateUser';
 import { bookTour } from './bookTour';
+import { showAlert } from './alerts';
 
 if (!window.__natoursInit) {
   window.__natoursInit = true;
@@ -102,4 +103,9 @@ if (!window.__natoursInit) {
       e.target.textContent = 'Book tour now!';
     });
   }
+}
+
+const alertMessage = document.querySelector('body').dataset.alert;
+if (alertMessage) {
+  showAlert('success', alertMessage, 20);
 }
