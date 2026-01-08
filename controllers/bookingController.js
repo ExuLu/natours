@@ -4,16 +4,17 @@ const catchAsync = require('../utils/catchAsync');
 const Tour = require('../models/tourModel');
 const Booking = require('../models/bookingModel');
 const factory = require('./handlerFactory');
+const User = require('../models/userModel');
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const { tourId } = req.params;
-  const { _id: userId, email } = req.user;
+  const { email } = req.user;
   const tour = await Tour.findById(tourId);
   const baseUrl = `${req.protocol}://${req.get('host')}`;
 
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    success_url: `${baseUrl}/?tour=${tourId}&user=${userId}&price=${tour.price}`,
+    success_url: `${baseUrl}/my-tours`,
     cancel_url: `${baseUrl}/tour/${tour.slug}`,
     customer_email: email,
     client_reference_id: tourId,
@@ -40,17 +41,33 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.createBookingCheckout = catchAsync(async (req, res, next) => {
-  const { tour, user, price } = req.query;
-
-  if (!tour || !user || !price) {
-    return next();
-  }
+const createBookingCheckout = catchAsync(async (session) => {
+  const tour = session.client_reference_id;
+  const user = (await User.findOne({ email: session.customer_email })).id;
+  const price = session.line_items[0].price_data.unit_amount / 100;
 
   await Booking.create({ tour, user, price });
-
-  res.redirect(req.originalUrl.split('?')[0]);
 });
+
+exports.webhookCheckout = (req, res, next) => {
+  const signature = req.headers['stripe-signature'];
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET,
+    );
+  } catch (err) {
+    return res.status(400).send(`Webhook error ${err.message}`);
+  }
+
+  if (event.type === 'checkout.session.complete') {
+    createBookingCheckout(event.data.object);
+  }
+
+  res.status(200).json({ received: true });
+};
 
 exports.createBooking = factory.createOne(Booking);
 exports.getBooking = factory.getOne(Booking);
