@@ -62,6 +62,9 @@ exports.webhookCheckout = (req, res, next) => {
     return res.status(400).send(`Webhook error ${err.message}`);
   }
 
+  console.log(`Event: ${event}`);
+  console.log(`Data object: ${event.data.object}`);
+
   if (event.type === 'checkout.session.complete') {
     createBookingCheckout(event.data.object);
   }
