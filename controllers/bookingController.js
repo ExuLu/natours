@@ -65,15 +65,8 @@ exports.webhookCheckout = (req, res, next) => {
     return res.status(400).send(`Webhook error ${err.message}`);
   }
 
-  // Log event type and id for diagnostics without dumping full object
-  console.log(`Event: ${event}`);
-  console.log(`Stripe event received: ${event.type} (${event.id})`);
-
-  if (event.type === 'checkout.session.complete') {
-    // Ensure we await booking creation to surface errors in logs
-    createBookingCheckout(event.data.object).catch((err) =>
-      console.error('Error creating booking from checkout session', err),
-    );
+  if (event.type === 'checkout.session.completed') {
+    createBookingCheckout(event.data.object);
   }
 
   res.status(200).json({ received: true });
